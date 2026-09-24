@@ -2,7 +2,7 @@
 
 ## Integrantes del Equipo
 * [Alexis Parra](link Github)
-* [Fernando Pacheco](link Github)
+* [Fernando Pacheco](https://github.com/F3rsj)
 * [Gabriel Diaz](link Github)
 * [Israel Pérez](https://github.com/Y63431)
 
