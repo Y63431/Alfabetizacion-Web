@@ -64,18 +64,3 @@ A nivel comunal, el proceso de digitalización municipal ha trasladado trámites
 ---
 
 ## 3. Instrucciones de Instalación y Ejecución
-
-```bash
-# Clonar el repositorio
-git clone <URL_DEL_REPOSITORIO>
-cd Web-Alfabetizacion
-
-# Instalar dependencias
-npm install
-
-# Ejecutar el servidor local de desarrollo
-npx @ionic/cli serve
-
-### Fuentes Secundarias Consultadas
-* Diagnóstico "Desafíos Públicos Locales - CTD Litoral Santo Domingo" (Problema 25: Habilidades digitales e interacción municipal)
-* Estudio [*La madurez digital en municipalidades chilenas: avances y desafíos*](https://ww2.movistar.cl/empresas/comunidad/madurez-digital-en-municipalidades-chilenas/)
