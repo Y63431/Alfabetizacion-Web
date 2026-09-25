@@ -64,3 +64,5 @@ A nivel comunal, el proceso de digitalización municipal ha trasladado trámites
 ---
 
 ## 3. Instrucciones de Instalación y Ejecución
+
+## 4. Definición de Arquitectura de Navegación y Experiencia del Usuario. (EP 1.4)
