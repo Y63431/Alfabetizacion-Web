@@ -9,15 +9,16 @@
 ---
 ## Distribución de responsabilidades
 
-* Nombre            Rol
 
-Alexis Parra     | Figma
 
-Fernando Pacheco | Documentación, Figma Web
 
-Gabriel Diaz     | Figma
+| Nombre | Rol en el proyecto |
+| :--- | :--- |
+| [Alexis Parra   ] | Figma |
+| [Fernando Pacheco] |   Documentación, Figma Web |
+| [Gabriel Diaz ] | Figma |
+| [Israel Pérez ] | Documentación, Figma |
 
-Israel Pérez     | Documentación, Figma
 
 Frontend (Ionic + React): estructura de vistas, componentes, navegación con React Router.
 UI/UX y Figma: mockups móvil/web, flujo de navegación, jerarquía visual.
