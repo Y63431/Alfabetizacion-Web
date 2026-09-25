@@ -8,13 +8,20 @@
 
 ---
 ## Distribución de responsabilidades
-Alexis Parra | Prototipo Figma
 
-Fernando Pacheco | Prototipo web Figma
+#Nombre            Rol
+Alexis Parra     | Figma
 
-Gabriel Diaz | Prototipo Figma
+Fernando Pacheco | Documentación, Figma Web
 
-Israel Pérez | Documentación (Github, Readme), Prototipo web y movil Figma
+Gabriel Diaz     | Figma
+
+Israel Pérez     | Documentación, Figma
+
+Frontend (Ionic + React): estructura de vistas, componentes, navegación con React Router.
+UI/UX y Figma: mockups móvil/web, flujo de navegación, jerarquía visual.
+Backend (a desarrollar en EP2): API REST, base de datos relacional, autenticación JWT.
+Documentación y gestión: README, ramas, control de versiones, evidencia de avance.
 
 ## 1. Justificación del Problema y Usuarios Objetivo (EP 1.2)
 
@@ -66,3 +73,6 @@ A nivel comunal, el proceso de digitalización municipal ha trasladado trámites
 ## 3. Instrucciones de Instalación y Ejecución
 
 ## 4. Definición de Arquitectura de Navegación y Experiencia del Usuario. (EP 1.4)
+la arquitectura de navegación de **Municipio Fácil**: estructura de rutas, jerarquía de vistas y flujo de interacción entre pantallas, tomando como base el prototipo de Figma (versión web) y los requerimientos funcionales definidos en este README.
+
+La versión móvil en desarrollo.
