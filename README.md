@@ -7,6 +7,14 @@
 * [Israel Pérez](https://github.com/Y63431)
 
 ---
+## Distribución de responsabilidades
+Alexis Parra | Prototipo Figma
+
+Fernando Pacheco | Prototipo web Figma
+
+Gabriel Diaz | Prototipo Figma
+
+Israel Pérez | Documentación (Github, Readme), Prototipo web y movil Figma
 
 ## 1. Justificación del Problema y Usuarios Objetivo (EP 1.2)
 
