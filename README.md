@@ -10,6 +10,7 @@
 ## Distribución de responsabilidades
 
 * Nombre            Rol
+
 Alexis Parra     | Figma
 
 Fernando Pacheco | Documentación, Figma Web
