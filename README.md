@@ -82,6 +82,37 @@ supuestos: que el adulto mayor no posee experiencia previa usando plataformas de
 
 ## 3. Instrucciones de Instalación y Ejecución
 
+### Prerrequisitos
+* **Node.js**: Versión 18 o superior LTS instalada (descargar desde [nodejs.org](https://nodejs.org/)).
+* **Git**: Instalado en el sistema para la gestión del repositorio.
+
+### Pasos para clonar y ejecutar el frontend
+
+1. **Clonar el repositorio y entrar al proyecto:**
+   ```bash
+   git clone https://github.com/Y63431/Alfabetizacion-Web.git
+   cd Alfabetizacion-Web
+   ```
+
+2. **Situarse en la rama frontend**
+   ```bash
+   git checkout frontend
+   ```
+
+3. **Instalar dependencias**
+   ```bash
+   npm install
+   ```
+
+4. **Ejecutar servidor local**
+   ```bash
+   npx @ionic/cli serve
+   ```
+
+5. **Abrir en navegador**
+* Abrir navegador en `http://localhost:8100/`
+* Utilizar aplicación
+
 ## 4. Definición de Arquitectura de Navegación y Experiencia del Usuario. (EP 1.4)
 la arquitectura de navegación de **Municipio Fácil**: estructura de rutas, jerarquía de vistas y flujo de interacción entre pantallas, tomando como base el prototipo de Figma (versión web) y los requerimientos funcionales definidos en este README.
 
