@@ -117,53 +117,74 @@ supuestos: que el adulto mayor no posee experiencia previa usando plataformas de
 la arquitectura de navegación de **Municipio Fácil**: estructura de rutas, jerarquía de vistas y flujo de interacción entre pantallas, tomando como base el prototipo de Figma (versión web) y los requerimientos funcionales definidos en este README.
 
 La versión móvil en desarrollo.
+### a) Rutas principales y secundarias
 
-a)Rutas principales y secundarias
-Rutas principales -- Acceso y registro:
+**Rutas implementadas actualmente en el código:**
+- / — Redirección automática a "/bienvenida" (<Navigate to="/bienvenida" replace />)
+- /bienvenida — Pantalla de bienvenida (componente Bienvenida.tsx, botones "Comenzar" e "Iniciar sesión")
+- /iniciar-sesion — Inicio de sesión (componente Login.tsx)
+- /registro — Registro guiado (componente Registro.tsx), con tres etapas internas controladas por estado (etapa):
+  - Etapa 1: Ingresar nombre (con explicador guiado opcional)
+  - Etapa 2: Ingresar correo y contraseña (con explicador guiado opcional)
+  - Etapa 3: Pantalla "¡Felicidades!"
+- /inicio — Página de Inicio (componente Inicio.tsx), con las tarjetas Practicar, Mi Perfil, Configuración y Ayuda
 
-  */bienvenida - Pantalla de bienvenida abre dos opciones ("Comenzar "|"Iniciar sesión")
-  
-  */iniciar-sesion - Iniciar Sesion (correo o telefono + contraseña) 
-  
-  */registro/nombre - Ingresa tu nombre
-  
-  */registro/nombre/explicación - Explicador Guaida: ingresar tu nombre siguiendo los pasos(Paso 1-3)
-  
-  */registro/gmail-contraseña - Ingresa Gmail y Contraseña
-  
-  */registro/gmail-contraseña/explicacion - Explicador Guaida:Explica de manera guiada como ingresar tu contraseña (Paso 1-5)
-  
-  */registro/felicidades - se logra el registro (el sistema de felicita)
-Rutas principales -- post login(Usuario)
+**Rutas planificadas, aún sin implementar (pendientes de conectar en próximas entregas):**
+- /practicar — Aprende Paso a Paso (listado de tutoriales)
+- /perfil — Mi Perfil
+- /configuracion — Configuración de Accesibilidad
+- /ayuda — Ayuda
+- /admin/panel — Panel de administración (raíz del subárbol de Administrador)
+- /admin/panel/gestion-modulos — Gestión de módulos (único hijo directo del panel)
+- /admin/panel/gestion-modulos/metricas — Métricas y estadísticas (subsección de Gestión de módulos)
+- /admin/panel/gestion-modulos/usuarios — Gestión de usuarios (subsección de Gestión de módulos)
 
-  */inicio - Pagina de inicio (se elige una actividad para comenzar)
-Rutas secundarias -- Usuario
+Estas rutas ya están consideradas en el diseño de navegación y en el menú lateral, pero sus botones (IonItem button sin routerLink) todavía no están conectados a una vista real.
 
-   */practicar - Aprende por medio de tutoriales("listado de tutoriales")
-   
-   */practicar/tutorial/:id - tutorial interactivo(ej. "Solicitar tramite", Paso 1 a 4)
-   
-   */perfil - mi perfil 
-   
-   */configuracion - Configuracion de accesibilidad
-   
-   */ayuda - sección de ayuda
-   
-Rutas secundarias -- Administrador:
-  */admin/iniciar-sesion - Iniciar sesion como admin(panel especial de administracion)
-  
-  */admin/panel - panel de administración(¿que modulo necesitas gestionar hoy?)
-  
-  */admin/usuarios - Gestion de Usuarios (Listado de usuarios registrados)
-  
-  */admin/contenido - Contenido y tutoriales
-  
-  */admin/configuración-sistema - Configuracion del sistema
-  
-b)Relaciones jerárquicas entre vistas 
-  *Nivel 0 
+### b) Relaciones jerárquicas entre vistas
+- La arquitectura avanza desde un Nivel 0 público de autenticación, hacia un Nivel 1 centralizado que sirve como panel de control para acceder a las        funcionalidades del Nivel 2. Todo el flujo se apoya en un menú lateral dinámico, que se mantiene oculto durante el acceso y se activa únicamente al iniciar sesión.
 
+1. **Nivel 0 – Acceso:** /bienvenida → /iniciar-sesion o /registro (con sus 3 etapas internas manejadas por estado, no por sub-rutas).
+2. **Nivel 1 – Inicio:** /inicio es la única vista posterior al login/registro, y actúa como raíz real (aunque hoy sin hijos navegables) de la experiencia autenticada.
+3. **Menú lateral:** implementado con IonSplitPane + IonMenu (MenuLateral.tsx), oculto en rutas públicas (rutasPublicas = [/bienvenida, /iniciar-sesion, /registro, /]) y visible en el resto, calculado dinámicamente según location.pathname.
+4. **Nivel 2 – Funcionalidades de Usuario:** desde /inicio se desprenden como hijos directos y paralelos: Perfil, Configuración, Tutoriales y Ayuda.
+5. **Nivel 3 – Tutoriales:** Tutoriales se abre en un nivel adicional hacia cada módulo (Tutorial 1 a 4).
+6. **Subárbol de Administrador (independiente del de Usuario):** a diferencia de Usuario, la jerarquía diseñada para Administrador es de tres niveles y **no paralela**: Panel de administración (raíz) → Gestión de módulos (único hijo directo) → Métricas y estadísticas y Gestión de usuarios (hijos de Gestión de módulos, no del panel). Es decir, el Administrador no tiene múltiples accesos directos desde su home, sino un único punto de entrada funcional que luego se ramifica.
 
+### c) Flujo de navegación entre funcionalidades
+**/bienvenida → /iniciar-sesion o /registro → /inicio**
+Dentro de /registro, el flujo es secuencial y validado en cada paso (validarNombre(), validarCredenciales()), mostrando el mensaje "Todavía falta un dato" cuando el campo está vacío o las contraseñas no coinciden, y devolviendo al usuario al mismo paso sin perder lo ya ingresado (RF04). Desde /inicio, el usuario ve las cuatro secciones (Practicar, Mi Perfil, Configuración, Ayuda) como parte del diseño de navegación, aunque hoy son solo informativas hasta que se conecten sus rutas.
+Una vez conectadas las rutas de /inicio, el flujo de navegación entre Perfil, Configuración, Tutoriales y Ayuda será **libre y no secuencial** 
+
+### d) Diferenciación de acceso según roles
+** Implementado actualmente:**
+El código **no diferencia roles todavía**. Toda persona que inicia sesión (/iniciar-sesion) o completa el registro (/registro) llega exactamente a la misma vista.
+**Diseño planificado**
+- **Usuario:** ingresará por /iniciar-sesion o completará el registro, y será dirigido a /inicio
+- **Administrador:** ingresará por una pantalla de login independiente (/admin/iniciar-sesion)
+
+### e) Flujo de principales tareas (task flow)
+El estado actual presentara 4 task flows, es decir que estarn imlementada en codigo 
+**Task flow 1 – Registro de un nuevo usuario:**
+/bienvenida → "Comenzar" → /registro (etapa 1: nombre, válido) → etapa 2: correo y contraseña (válido) → etapa 3: "¡Felicidades!" → botón "Continuar" → /inicio.
+**Task flow 2 – Corrección de un dato faltante:**
+En cualquier etapa de /registro, si el campo está vacío o las contraseñas no coinciden → mensaje "Todavía falta un dato" → corrección sobre el mismo formulario
+**Task flow 3 – Uso del explicador guiado:**
+Etapa 1 o 2 de /registro → botón "Ver la explicación" / "Ver explicación guiada" → pasos numerados (PASO 1, PASO 2...) → botón "Cerrar explicación y escribir" → vuelve al formulario sin perder el progreso.
+**Task flow 4 – Inicio de sesión:**
+/bienvenida → "Iniciar sesión" → /iniciar-sesion → completar correo/teléfono y contraseña → botón "Iniciar Sesión" → /inicio.
+
+en entregas futuras abran mas task flows
+
+### f) Puntos críticos de interacción
+**Implementados para Entrega parcial 1**
+- **Validación por etapa en /registro:** usa mensajes claros y sin tecnicismos ("No has puesto tu nombre. No pasó nada: puedes corregirlo ahora"), y nunca borra lo que el usuario ya escribió al mostrar un error.
+- **Visibilidad condicional del menú lateral:** se calcula en cada render a partir de location.pathname; agregar una nueva ruta pública sin sumarla a rutasPublicas haría aparecer el menú donde no corresponde, por lo que es un punto que requiere disciplina al escalar el proyecto.
+- 
+### g) Coherencia de experiencia entre dispositivos
+El uso de IonSplitPane permite que el mismo menú lateral (MenuLateral.tsx) se comporte como panel fijo en pantallas anchas (web/escritorio) y como menú deslizable tipo overlay en pantallas angostas (móvil).
+
+### h) Justificación técnica de las decisiones de arquitectura
 
 
 
