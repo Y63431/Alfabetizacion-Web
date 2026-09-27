@@ -180,12 +180,20 @@ en entregas futuras abran mas task flows
 **Implementados para Entrega parcial 1**
 - **Validación por etapa en /registro:** usa mensajes claros y sin tecnicismos ("No has puesto tu nombre. No pasó nada: puedes corregirlo ahora"), y nunca borra lo que el usuario ya escribió al mostrar un error.
 - **Visibilidad condicional del menú lateral:** se calcula en cada render a partir de location.pathname; agregar una nueva ruta pública sin sumarla a rutasPublicas haría aparecer el menú donde no corresponde, por lo que es un punto que requiere disciplina al escalar el proyecto.
-- 
+- **Pendiente por hacer**
+-**Botones sin ruta asignada (Practicar, Mi Perfil, Configuración, Ayuda):**
+- **Único punto de entrada al subárbol de Administrador (Gestión de módulos):**
 ### g) Coherencia de experiencia entre dispositivos
 El uso de IonSplitPane permite que el mismo menú lateral (MenuLateral.tsx) se comporte como panel fijo en pantallas anchas (web/escritorio) y como menú deslizable tipo overlay en pantallas angostas (móvil).
-
+- **Verificación de rol en rutas protegidas:**
 ### h) Justificación técnica de las decisiones de arquitectura
+- **Usabilidad:** manejar el registro como una sola ruta con estado interno (etapa) evita que el usuario pierda su progreso al usar el botón "atrás" del navegador entre etapas, algo crítico para la Proto-Persona "Usuario Aprendiz".
+- **Eficiencia de interacción:** la validación ocurre en el cliente antes de avanzar de etapa
+- **Claridad estructural:** separar el menú lateral como componente independiente
 
-
+**Decisiones de diseño a aplicar en próximas entregas:**
+- **Escalabilidad:**
+- **Seguridad y claridad de roles:**
+- **Jerarquía anidada del Administrador:**
 
 Link a Mockups [Figma](https://www.figma.com/design/u9nffOZTdsYh1RBRvRnf2z/Alfabetizacion-Web?m=auto&t=Ux02yCFqAIKCVX0t-1)
