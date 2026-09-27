@@ -1,7 +1,7 @@
 # App de Alfabetización Digital Ciudadana
 
 ## Integrantes del Equipo
-* [Alexis Parra](link Github)
+* [Alexis Parra](https://github.com/AlexisEstebanParraS)
 * [Fernando Pacheco](https://github.com/F3rsj)
 * [Gabriel Díaz](https://github.com/Gabread)
 * [Israel Pérez](https://github.com/Y63431)
@@ -78,6 +78,54 @@ A nivel comunal, el proceso de digitalización municipal ha trasladado trámites
 la arquitectura de navegación de **Municipio Fácil**: estructura de rutas, jerarquía de vistas y flujo de interacción entre pantallas, tomando como base el prototipo de Figma (versión web) y los requerimientos funcionales definidos en este README.
 
 La versión móvil en desarrollo.
+
+a)Rutas principales y secundarias
+Rutas principales -- Acceso y registro:
+
+  */bienvenida - Pantalla de bienvenida abre dos opciones ("Comenzar "|"Iniciar sesión")
+  
+  */iniciar-sesion - Iniciar Sesion (correo o telefono + contraseña) 
+  
+  */registro/nombre - Ingresa tu nombre
+  
+  */registro/nombre/explicación - Explicador Guaida: ingresar tu nombre siguiendo los pasos(Paso 1-3)
+  
+  */registro/gmail-contraseña - Ingresa Gmail y Contraseña
+  
+  */registro/gmail-contraseña/explicacion - Explicador Guaida:Explica de manera guiada como ingresar tu contraseña (Paso 1-5)
+  
+  */registro/felicidades - se logra el registro (el sistema de felicita)
+Rutas principales -- post login(Usuario)
+
+  */inicio - Pagina de inicio (se elige una actividad para comenzar)
+Rutas secundarias -- Usuario
+
+   */practicar - Aprende por medio de tutoriales("listado de tutoriales")
+   
+   */practicar/tutorial/:id - tutorial interactivo(ej. "Solicitar tramite", Paso 1 a 4)
+   
+   */perfil - mi perfil 
+   
+   */configuracion - Configuracion de accesibilidad
+   
+   */ayuda - sección de ayuda
+   
+Rutas secundarias -- Administrador:
+  */admin/iniciar-sesion - Iniciar sesion como admin(panel especial de administracion)
+  
+  */admin/panel - panel de administración(¿que modulo necesitas gestionar hoy?)
+  
+  */admin/usuarios - Gestion de Usuarios (Listado de usuarios registrados)
+  
+  */admin/contenido - Contenido y tutoriales
+  
+  */admin/configuración-sistema - Configuracion del sistema
+  
+b)Relaciones jerárquicas entre vistas 
+  *Nivel 0 
+
+
+
 
 
 Link a Mockups [Figma](https://www.figma.com/design/u9nffOZTdsYh1RBRvRnf2z/Alfabetizacion-Web?m=auto&t=Ux02yCFqAIKCVX0t-1)
