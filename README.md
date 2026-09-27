@@ -135,9 +135,9 @@ La versión móvil en desarrollo.
 - /configuracion — Configuración de Accesibilidad
 - /ayuda — Ayuda
 - /admin/panel — Panel de administración (raíz del subárbol de Administrador)
-- /admin/panel/gestion-modulos — Gestión de módulos (único hijo directo del panel)
-- /admin/panel/gestion-modulos/metricas — Métricas y estadísticas (subsección de Gestión de módulos)
-- /admin/panel/gestion-modulos/usuarios — Gestión de usuarios (subsección de Gestión de módulos)
+- /admin/panel/gestion-modulos — Gestión de módulos (hijo directo del panel)
+- /admin/panel/metricas — Métricas y estadísticas (hijo directo del panel)
+- /admin/panel/usuarios — Gestión de usuarios (hijo directo del panel)
 
 Estas rutas ya están consideradas en el diseño de navegación y en el menú lateral, pero sus botones (IonItem button sin routerLink) todavía no están conectados a una vista real.
 
@@ -149,7 +149,7 @@ Estas rutas ya están consideradas en el diseño de navegación y en el menú la
 3. **Menú lateral:** implementado con IonSplitPane + IonMenu (MenuLateral.tsx), oculto en rutas públicas (rutasPublicas = [/bienvenida, /iniciar-sesion, /registro, /]) y visible en el resto, calculado dinámicamente según location.pathname.
 4. **Nivel 2 – Funcionalidades de Usuario:** desde /inicio se desprenden como hijos directos y paralelos: Perfil, Configuración, Tutoriales y Ayuda.
 5. **Nivel 3 – Tutoriales:** Tutoriales se abre en un nivel adicional hacia cada módulo (Tutorial 1 a 4).
-6. **Subárbol de Administrador (independiente del de Usuario):** a diferencia de Usuario, la jerarquía diseñada para Administrador es de tres niveles y **no paralela**: Panel de administración (raíz) → Gestión de módulos (único hijo directo) → Métricas y estadísticas y Gestión de usuarios (hijos de Gestión de módulos, no del panel). Es decir, el Administrador no tiene múltiples accesos directos desde su home, sino un único punto de entrada funcional que luego se ramifica.
+6. **Subárbol de Administrador (independiente del de Usuario):** al igual que en Usuario, la jerarquía diseñada para Administrador tiene dos niveles y es paralela: Panel de administración (raíz) → Gestión de módulos, Métricas y estadísticas y Gestión de usuarios (los tres como hijos directos y paralelos del panel)
 
 ### c) Flujo de navegación entre funcionalidades
 **/bienvenida → /iniciar-sesion o /registro → /inicio**
@@ -160,8 +160,8 @@ Una vez conectadas las rutas de /inicio, el flujo de navegación entre Perfil, C
 ** Implementado actualmente:**
 El código **no diferencia roles todavía**. Toda persona que inicia sesión (/iniciar-sesion) o completa el registro (/registro) llega exactamente a la misma vista.
 **Diseño planificado**
-- **Usuario:** ingresará por /iniciar-sesion o completará el registro, y será dirigido a /inicio
-- **Administrador:** ingresará por una pantalla de login independiente (/admin/iniciar-sesion)
+- **Usuario:** ingresará por /iniciar-sesion o completará el registro, y será dirigido a /inicio, con acceso a Practicar, Mi Perfil, Configuración y Ayuda.
+- **Administrador:** ingresará por una pantalla de login independiente (/admin/iniciar-sesion, ya diseñada en los mockups como "Acceso Seguro") y será dirigido a /admin/panel, con acceso directo y paralelo a Gestión de módulos, Métricas y estadísticas y Gestión de usuarios. Este subárbol no incluirá Ayuda ni Practicar, ya que esas funcionalidades están diseñadas para la Proto-Persona "Usuario Aprendiz", no para el Coordinador de Capacitación.
 
 ### e) Flujo de principales tareas (task flow)
 El estado actual presentara 4 task flows, es decir que estarn imlementada en codigo 
