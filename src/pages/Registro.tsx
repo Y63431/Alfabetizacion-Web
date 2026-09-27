@@ -127,26 +127,58 @@ const Registro: React.FC = () => {
             <IonCard style={{ borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: 'none' }}>
               <IonCardContent>
                 <h2 style={{ fontWeight: 'bold', color: '#111827', marginBottom: '16px' }}>Haz esto para continuar</h2>
-                <IonItem lines="none" style={{ border: '2px solid #ccc', borderRadius: '8px', marginBottom: '14px' }}>
-                  <IonLabel position="stacked" style={{ fontWeight: 'bold', color: '#333' }}>Correo electrónico</IonLabel>
-                  <IonInput type="email" value={email} placeholder="Ej: tunombre@gmail.com" onIonInput={(e) => setEmail(e.detail.value ?? '')} />
-                </IonItem>
-                <IonItem lines="none" style={{ border: '2px solid #ccc', borderRadius: '8px', marginBottom: '14px' }}>
-                  <IonLabel position="stacked" style={{ fontWeight: 'bold', color: '#333' }}>Contraseña (mínimo 8 caracteres)</IonLabel>
-                  <IonInput type="password" value={password} placeholder="Crea una contraseña segura" onIonInput={(e) => setPassword(e.detail.value ?? '')} />
-                </IonItem>
-                <IonItem lines="none" style={{ border: '2px solid #ccc', borderRadius: '8px', marginBottom: '20px' }}>
-                  <IonLabel position="stacked" style={{ fontWeight: 'bold', color: '#333' }}>Confirmar contraseña</IonLabel>
-                  <IonInput type="password" value={confirmPassword} placeholder="Repite tu contraseña aquí" onIonInput={(e) => setConfirmPassword(e.detail.value ?? '')} />
-                </IonItem>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <IonButton fill="outline" onClick={() => setMostrarGuia(!mostrarGuia)} style={{ '--border-radius': '10px' }}>
-                    <IonIcon slot="start" icon={syncOutline} /> {mostrarGuia ? 'Ocultar guía' : 'Ver explicación guiada'}
-                  </IonButton>
-                  <IonButton onClick={validarCredenciales} style={{ '--background': '#0f5132', '--border-radius': '20px', minWidth: '150px' }}>
-                    Continuar <IonIcon slot="end" icon={arrowForwardOutline} />
-                  </IonButton>
-                </div>
+                
+                {!mostrarGuia ? (
+                  <>
+                    <IonItem lines="none" style={{ border: '2px solid #ccc', borderRadius: '8px', marginBottom: '14px' }}>
+                      <IonLabel position="stacked" style={{ fontWeight: 'bold', color: '#333' }}>Correo electrónico</IonLabel>
+                      <IonInput type="email" value={email} placeholder="Ej: tunombre@gmail.com" onIonInput={(e) => setEmail(e.detail.value ?? '')} />
+                    </IonItem>
+                    
+                    <IonItem lines="none" style={{ border: '2px solid #ccc', borderRadius: '8px', marginBottom: '14px' }}>
+                      <IonLabel position="stacked" style={{ fontWeight: 'bold', color: '#333' }}>Contraseña (mínimo 8 caracteres)</IonLabel>
+                      <IonInput type="password" value={password} placeholder="Crea una contraseña segura" onIonInput={(e) => setPassword(e.detail.value ?? '')} />
+                    </IonItem>
+                    
+                    <IonItem lines="none" style={{ border: '2px solid #ccc', borderRadius: '8px', marginBottom: '20px' }}>
+                      <IonLabel position="stacked" style={{ fontWeight: 'bold', color: '#333' }}>Confirmar contraseña</IonLabel>
+                      <IonInput type="password" value={confirmPassword} placeholder="Repite tu contraseña aquí" onIonInput={(e) => setConfirmPassword(e.detail.value ?? '')} />
+                    </IonItem>
+                    
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <IonButton fill="outline" onClick={() => setMostrarGuia(true)} style={{ '--border-radius': '10px' }}>
+                        <IonIcon slot="start" icon={syncOutline} /> Ver explicación guiada
+                      </IonButton>
+                      <IonButton onClick={validarCredenciales} style={{ '--background': '#0f5132', '--border-radius': '20px', minWidth: '150px' }}>
+                        Continuar <IonIcon slot="end" icon={arrowForwardOutline} />
+                      </IonButton>
+                    </div>
+                  </>
+                ) : (
+                  /* Explicador guiado Diapo 7 */
+                  <div>
+                    <p style={{ fontWeight: 'bold', color: '#0f5132' }}>
+                      Explicador guiado: Sigue estos sencillos pasos para ingresar tu correo y crear tu contraseña sin problemas.
+                    </p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', margin: '20px 0' }}>
+                      <div style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '8px' }}>
+                        <strong>PASO 1:</strong> Presiona sobre la primera casilla y escribe tu correo completo.
+                      </div>
+                      <div style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '8px' }}>
+                        <strong>PASO 2:</strong> Presiona la segunda casilla e inventa una contraseña (mínimo 8 caracteres).
+                      </div>
+                      <div style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '8px' }}>
+                        <strong>PASO 3:</strong> Presiona la última casilla y repite exactamente la misma contraseña para confirmarla.
+                      </div>
+                      <div style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '8px' }}>
+                        <strong>PASO 4:</strong> Presiona el botón verde Continuar.
+                      </div>
+                    </div>
+                    <IonButton fill="clear" onClick={() => setMostrarGuia(false)}>
+                      Cerrar explicación y escribir
+                    </IonButton>
+                  </div>
+                )}
               </IonCardContent>
             </IonCard>
           )}
