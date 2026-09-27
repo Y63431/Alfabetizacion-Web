@@ -20,6 +20,7 @@ import './theme/variables.css';
 /* Páginas */
 import Bienvenida from './pages/Bienvenida';
 import Login from './pages/Login';
+import Registro from './pages/Registro';
 
 setupIonicReact();
 
@@ -32,6 +33,8 @@ const App: React.FC = () => (
         
         {/* Redirección inicial */}
         <Route path="/" element={<Navigate to="/bienvenida" replace />} />
+        <Route path="/registro" element={<Registro />} />
+        
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
