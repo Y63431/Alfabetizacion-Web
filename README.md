@@ -159,10 +159,15 @@ Todas estas rutas planificadas ya existen como botones o tarjetas visuales en el
 Todo el bloque de Administrador (rutas, componentes, panel) no existe aún en el código; su implementación real corresponde a EP2.5, junto con la protección de rutas por rol.
 
 ### c) Flujo de navegación entre funcionalidades
-El flujo funcional hoy es: **`/bienvenida` → `/iniciar-sesion` o `/registro` → `/inicio`**. Dentro de `/registro`, el flujo es secuencial y validado en cada paso (`validarNombre()`, `validarCredenciales()`).
+1. **Flujo de primer uso / onboarding:** `/bienvenida` → "Comenzar" → `/registro` → completa secuencialmente nombre y credenciales (con validación en cada etapa) → pantalla de confirmación → "Continuar" → `/inicio`.
 
-**Diseñado, planificado:**
-Una vez conectadas las rutas de `/inicio`, el flujo de navegación entre Perfil, Configuración, Tutoriales y Ayuda será **libre y no secuencial** (el usuario puede moverse entre ellas en cualquier orden desde el menú lateral o las tarjetas de Inicio).
+2. **Flujo de autenticación recurrente:** `/bienvenida` → "Iniciar sesión" → `/iniciar-sesion` → credenciales → `/inicio`.
+
+3. **Exploración no lineal:** una vez conectadas las rutas, desde `/inicio` la interacción será libre y abierta — el usuario podrá dirigirse indistintamente a Perfil, Configuración, Tutoriales o Ayuda sin un orden predeterminado.
+
+4. **Simulación secuencial de trámites:** al seleccionar un ejercicio en `/practicar`, el sistema impondrá un avance ordenado (Paso 1: Portal → Paso 2: Formulario → Validación y corrección → Paso 4: Finalización), permitiendo retroceder en todo momento.
+
+5. **Acceso del Administrador:** desde `/admin/panel`, el Coordinador podrá dirigirse directamente y sin orden obligatorio a Gestión de módulos, Métricas y estadísticas o Gestión de usuarios.
 
 ### d) Diferenciación de acceso según roles
 ** Implementado actualmente:**
@@ -186,6 +191,19 @@ Etapa 1 o 2 de `/registro` → botón "Ver la explicación" / "Ver explicación 
 
 **Task flow 4 – Inicio de sesión:**
 `/bienvenida` → "Iniciar sesión" → `/iniciar-sesion` → completar correo/teléfono y contraseña → botón "Iniciar Sesión" → `/inicio`.
+
+**🔲 Diseñado, planificado:**
+
+**Task flow 5 – Ejecución de tutorial interactivo:**
+`/inicio` → `/practicar` → selección de lección ("Solicitar Trámite") → fase explicativa → formulario de prueba → corrección formativa ante errores → resumen pedagógico final.
+
+**Task flow 6 – Ajuste de accesibilidad:**
+`/inicio` → "Configuración" → `/configuracion` → ajustar tamaño de letra, modo oscuro, notificaciones, sonido de voz o idioma → "Guardar Configuración".
+
+**Task flow 7 – Acceso y gestión (Administrador):**
+`/admin/iniciar-sesion` → `/admin/panel` → selección directa entre "Gestión de módulos", "Métricas y estadísticas" o "Gestión de usuarios".
+
+
 
 ### f) Puntos críticos de interacción
 **Implementados para Entrega parcial 1**
