@@ -171,13 +171,17 @@ El código **no diferencia roles todavía**. Toda persona que inicia sesión (/i
 
 ### e) Flujo de principales tareas (task flow)
 El estado actual presentara 4 task flows, es decir que estarn imlementada en codigo 
+
 **Task flow 1 – Registro de un nuevo usuario:**
 `/bienvenida` → "Comenzar" → `/registro` (etapa 1: nombre, válido) → etapa 2: correo y contraseña (válido) → etapa 3: "¡Felicidades!" → botón "Continuar" → `/inicio`.
 
+
 **Task flow 2 – Corrección de un dato faltante:**
 En cualquier etapa de `/registro`, si el campo está vacío o las contraseñas no coinciden → mensaje "Todavía falta un dato" → corrección sobre el mismo formulario.
+
 **Task flow 3 – Uso del explicador guiado:**
 Etapa 1 o 2 de `/registro` → botón "Ver la explicación" / "Ver explicación guiada" → pasos numerados (PASO 1, PASO 2...) → botón "Cerrar explicación y escribir" → vuelve al formulario sin perder el progreso.
+
 **Task flow 4 – Inicio de sesión:**
 `/bienvenida` → "Iniciar sesión" → `/iniciar-sesion` → completar correo/teléfono y contraseña → botón "Iniciar Sesión" → `/inicio`.
 
