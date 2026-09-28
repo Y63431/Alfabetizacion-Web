@@ -117,13 +117,14 @@ supuestos: que el adulto mayor no posee experiencia previa usando plataformas de
 Este objetivo se cumplió de forma **parcial**, considerando únicamente las pantallas que a la fecha ya se encuentran codificadas. Para cada una de ellas se elaboró de forma manual, en Figma, el mockup correspondiente a una funcionalidad definida previamente en los requerimientos del proyecto, con un diseño diferenciado y coherente con el flujo de navegación y la jerarquía de información.
 Los diseños contemplan explícitamente la **versión móvil** y la **versión web**, evidenciando la distribución del contenido, los componentes de navegación (menú lateral en web y barra inferior en móvil) y la densidad de la información. La construcción se realizó exclusivamente con las herramientas convencionales de Figma (marcos, componentes, estilos, Auto Layout y conexiones de prototipado), sin recurrir al asistente de IA de Figma ni a otras herramientas de IA generativa.
 
-![Uploading mermaid-ai-diagram-2026-09-28-022042.png…]()
+<img width="8192" height="4301" alt="mermaid-ai-diagram-2026-09-28-022042" src="https://github.com/user-attachments/assets/6c7c782e-03b9-448b-ae4a-188630522c75" />
 
 
 ## 5. Definición de Arquitectura de Navegación y Experiencia del Usuario. (EP 1.4)
 la arquitectura de navegación de **Municipio Fácil**: estructura de rutas, jerarquía de vistas y flujo de interacción entre pantallas, tomando como base el prototipo de Figma (versión web) y los requerimientos funcionales definidos en este README.
 
-![Diagrama de flujo de navegación de Municipio Fácil](./docs/diagrama-flujo-navegacion.png)
+![Uploading mermaid-ai-diagram-2026-09-28-022042.png…]()
+
 
 La versión móvil en desarrollo.
 ### a) Rutas principales y secundarias
