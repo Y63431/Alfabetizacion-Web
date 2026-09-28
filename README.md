@@ -199,7 +199,7 @@ Etapa 1 o 2 de `/registro` → botón "Ver la explicación" / "Ver explicación 
 **Task flow 4 – Inicio de sesión:**
 `/bienvenida` → "Iniciar sesión" → `/iniciar-sesion` → completar correo/teléfono y contraseña → botón "Iniciar Sesión" → `/inicio`.
 
-**🔲 Diseñado, planificado:**
+**Diseñado, planificado:**
 
 **Task flow 5 – Ejecución de tutorial interactivo:**
 `/inicio` → `/practicar` → selección de lección ("Solicitar Trámite") → fase explicativa → formulario de prueba → corrección formativa ante errores → resumen pedagógico final.
