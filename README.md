@@ -177,7 +177,7 @@ Todo el bloque de Administrador (rutas, componentes, panel) no existe aún en el
 5. **Acceso del Administrador:** desde `/admin/panel`, el Coordinador podrá dirigirse directamente y sin orden obligatorio a Gestión de módulos, Métricas y estadísticas o Gestión de usuarios.
 
 ### d) Diferenciación de acceso según roles
-** Implementado actualmente:**
+**Implementado actualmente:**
 El código **no diferencia roles todavía**. Toda persona que inicia sesión (/iniciar-sesion) o completa el registro (/registro) llega exactamente a la misma vista.
 **Diseño planificado**
 - **Usuario:** ingresará por `/iniciar-sesion` o completará el registro, y será dirigido a `/inicio`, con acceso a Practicar, Mi Perfil, Configuración y Ayuda
