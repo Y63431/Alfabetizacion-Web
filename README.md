@@ -181,8 +181,6 @@ Etapa 1 o 2 de `/registro` → botón "Ver la explicación" / "Ver explicación 
 **Task flow 4 – Inicio de sesión:**
 `/bienvenida` → "Iniciar sesión" → `/iniciar-sesion` → completar correo/teléfono y contraseña → botón "Iniciar Sesión" → `/inicio`.
 
-en entregas futuras abran mas task flows
-
 ### f) Puntos críticos de interacción
 **Implementados para Entrega parcial 1**
 - **Validación por etapa en `/registro`:** usa mensajes claros y sin tecnicismos ("No has puesto tu nombre. No pasó nada: puedes corregirlo ahora"), y nunca borra lo que el usuario ya escribió al mostrar un error.
