@@ -154,7 +154,9 @@ Todas estas rutas planificadas ya existen como botones o tarjetas visuales en el
 **Diseñado, planificado (según diagrama de flujo):**
 4. **Nivel 2 – Funcionalidades de Usuario:** desde `/inicio` se desprenden como hijos directos y paralelos: Perfil, Configuración, Tutoriales y Ayuda.
 5. **Nivel 3 – Tutoriales:** Tutoriales se abre en un nivel adicional hacia cada módulo (Tutorial 1 a 4).
-6. **Subárbol de Administrador (independiente del de Usuario):** a diferencia de Usuario, la jerarquía diseñada para Administrador es de tres niveles y **no paralela**: `Panel de administración` (raíz) → `Gestión de módulos` (único hijo directo) → `Métricas y estadísticas` y `Gestión de usuarios` (hijos de `Gestión de módulos`, no del panel). Es decir, el Administrador no tiene múltiples accesos directos desde su home, sino un único punto de entrada funcional que luego se ramifica.
+6. **Subárbol paralelo del Administrador:** estructura desacoplada del flujo ciudadano. Se accede mediante `/admin/iniciar-sesion` y conduce al tablero `/admin/panel`, desde el cual se ramifican de forma horizontal y en el mismo nivel jerárquico las vistas de *Gestión de módulos*, *Métricas y estadísticas* y *Gestión de usuarios* — igual de paralelas entre sí que las secciones del Usuario, sin que una dependa de otra para ser accedida.
+
+Todo el bloque de Administrador (rutas, componentes, panel) no existe aún en el código; su implementación real corresponde a EP2.5, junto con la protección de rutas por rol.
 
 ### c) Flujo de navegación entre funcionalidades
 El flujo funcional hoy es: **`/bienvenida` → `/iniciar-sesion` o `/registro` → `/inicio`**. Dentro de `/registro`, el flujo es secuencial y validado en cada paso (`validarNombre()`, `validarCredenciales()`).
