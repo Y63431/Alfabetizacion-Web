@@ -117,7 +117,7 @@ supuestos: que el adulto mayor no posee experiencia previa usando plataformas de
 Este objetivo se cumplió de forma **parcial**, considerando únicamente las pantallas que a la fecha ya se encuentran codificadas. Para cada una de ellas se elaboró de forma manual, en Figma, el mockup correspondiente a una funcionalidad definida previamente en los requerimientos del proyecto, con un diseño diferenciado y coherente con el flujo de navegación y la jerarquía de información.
 Los diseños contemplan explícitamente la **versión móvil** y la **versión web**, evidenciando la distribución del contenido, los componentes de navegación (menú lateral en web y barra inferior en móvil) y la densidad de la información. La construcción se realizó exclusivamente con las herramientas convencionales de Figma (marcos, componentes, estilos, Auto Layout y conexiones de prototipado), sin recurrir al asistente de IA de Figma ni a otras herramientas de IA generativa.
 
-
+Link a Mockups [Figma](https://www.figma.com/design/u9nffOZTdsYh1RBRvRnf2z/Alfabetizacion-Web?m=auto&t=Ux02yCFqAIKCVX0t-1)
 
 ## 5. Definición de Arquitectura de Navegación y Experiencia del Usuario. (EP 1.4)
 la arquitectura de navegación de **Municipio Fácil**: estructura de rutas, jerarquía de vistas y flujo de interacción entre pantallas, tomando como base el prototipo de Figma (versión web) y los requerimientos funcionales definidos en este README.
@@ -234,5 +234,3 @@ El uso de `IonSplitPane` permite que el mismo menú lateral (`MenuLateral.tsx`) 
 - **Escalabilidad:** dejar los ítems Practicar, Mi Perfil, Configuración y Ayuda ya visibles en el menú y en `Inicio.tsx` —aunque todavía sin ruta— permite conectarlos progresivamente sin rediseñar la navegación general ya construida.
 - **Seguridad y claridad de roles:** concentrar toda la lógica de diferenciación de roles en un único componente `PrivateRoute` (en vez de repetir validaciones en cada vista) reducirá el riesgo de inconsistencias al conectar el backend en EP2.
 - **Jerarquía anidada del Administrador:** modelar "Gestión de módulos" como nodo intermedio entre el panel raíz y sus dos subsecciones (en vez de dejarlas como accesos paralelos).
-
-Link a Mockups [Figma](https://www.figma.com/design/u9nffOZTdsYh1RBRvRnf2z/Alfabetizacion-Web?m=auto&t=Ux02yCFqAIKCVX0t-1)
