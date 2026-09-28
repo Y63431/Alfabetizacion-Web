@@ -113,7 +113,13 @@ supuestos: que el adulto mayor no posee experiencia previa usando plataformas de
 * Abrir navegador en `http://localhost:8100/`
 * Utilizar aplicación
 
-## 4. Definición de Arquitectura de Navegación y Experiencia del Usuario. (EP 1.4)
+## 4. Bocetos de UI/UX y prototipo en Figma (EP 1.3)
+Este objetivo se cumplió de forma **parcial**, considerando únicamente las pantallas que a la fecha ya se encuentran codificadas. Para cada una de ellas se elaboró de forma manual, en Figma, el mockup correspondiente a una funcionalidad definida previamente en los requerimientos del proyecto, con un diseño diferenciado y coherente con el flujo de navegación y la jerarquía de información.
+Los diseños contemplan explícitamente la **versión móvil** y la **versión web**, evidenciando la distribución del contenido, los componentes de navegación (menú lateral en web y barra inferior en móvil) y la densidad de la información. La construcción se realizó exclusivamente con las herramientas convencionales de Figma (marcos, componentes, estilos, Auto Layout y conexiones de prototipado), sin recurrir al asistente de IA de Figma ni a otras herramientas de IA generativa.
+
+Link a Mockups [Figma](https://www.figma.com/design/u9nffOZTdsYh1RBRvRnf2z/Alfabetizacion-Web?m=auto&t=Ux02yCFqAIKCVX0t-1)
+
+## 5. Definición de Arquitectura de Navegación y Experiencia del Usuario. (EP 1.4)
 la arquitectura de navegación de **Municipio Fácil**: estructura de rutas, jerarquía de vistas y flujo de interacción entre pantallas, tomando como base el prototipo de Figma (versión web) y los requerimientos funcionales definidos en este README.
 
 ![Diagrama de flujo de navegación de Municipio Fácil](./docs/diagrama-flujo-navegacion.png)
