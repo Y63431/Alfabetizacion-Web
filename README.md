@@ -116,84 +116,94 @@ supuestos: que el adulto mayor no posee experiencia previa usando plataformas de
 ## 4. Definición de Arquitectura de Navegación y Experiencia del Usuario. (EP 1.4)
 la arquitectura de navegación de **Municipio Fácil**: estructura de rutas, jerarquía de vistas y flujo de interacción entre pantallas, tomando como base el prototipo de Figma (versión web) y los requerimientos funcionales definidos en este README.
 
+![Diagrama de flujo de navegación de Municipio Fácil](./docs/diagrama-flujo-navegacion.png)
+
 La versión móvil en desarrollo.
 ### a) Rutas principales y secundarias
 
 **Rutas implementadas actualmente en el código:**
-- / — Redirección automática a "/bienvenida" (<Navigate to="/bienvenida" replace />)
-- /bienvenida — Pantalla de bienvenida (componente Bienvenida.tsx, botones "Comenzar" e "Iniciar sesión")
-- /iniciar-sesion — Inicio de sesión (componente Login.tsx)
-- /registro — Registro guiado (componente Registro.tsx), con tres etapas internas controladas por estado (etapa):
+- `/` — Redirección automática a `/bienvenida` (`<Navigate to="/bienvenida" replace />`)
+- `/bienvenida` — Pantalla de bienvenida (`Bienvenida.tsx`), con botones "Comenzar" e "Iniciar sesión"
+- `/iniciar-sesion` — Inicio de sesión (`Login.tsx`)
+- `/registro` — Registro guiado (`Registro.tsx`), con tres etapas controladas por estado interno (`etapa`), no por rutas separadas:
   - Etapa 1: Ingresar nombre (con explicador guiado opcional)
   - Etapa 2: Ingresar correo y contraseña (con explicador guiado opcional)
   - Etapa 3: Pantalla "¡Felicidades!"
-- /inicio — Página de Inicio (componente Inicio.tsx), con las tarjetas Practicar, Mi Perfil, Configuración y Ayuda
+- `/inicio` — Página de Inicio (`Inicio.tsx`), con las tarjetas Practicar, Mi Perfil, Configuración y Ayuda (visibles, aún no navegables)
 
 **Rutas planificadas, aún sin implementar (pendientes de conectar en próximas entregas):**
-- /practicar — Aprende Paso a Paso (listado de tutoriales)
-- /perfil — Mi Perfil
-- /configuracion — Configuración de Accesibilidad
-- /ayuda — Ayuda
-- /admin/panel — Panel de administración (raíz del subárbol de Administrador)
-- /admin/panel/gestion-modulos — Gestión de módulos (hijo directo del panel)
-- /admin/panel/metricas — Métricas y estadísticas (hijo directo del panel)
-- /admin/panel/usuarios — Gestión de usuarios (hijo directo del panel)
+- `/practicar` — Aprende Paso a Paso (listado de tutoriales), a implementar en EP1.6 o EP2
+- `/practicar/tutorial/:id` — Vista de tutorial interactivo paso a paso (ej. "Solicitar Trámite")
+- `/perfil` — Mi Perfil
+- `/configuracion` — Configuración de Accesibilidad
+- `/ayuda` — Ayuda
+- `/admin/iniciar-sesion` — Inicio de sesión exclusivo del Administrador
+- `/admin/panel` — Panel de administración (raíz del subárbol de Administrador)
+- `/admin/panel/gestion-modulos` — Gestión de módulos
+- `/admin/panel/gestion-modulos/metricas` — Métricas y estadísticas
+- `/admin/panel/gestion-modulos/usuarios` — Gestión de usuarios
 
-Estas rutas ya están consideradas en el diseño de navegación y en el menú lateral, pero sus botones (IonItem button sin routerLink) todavía no están conectados a una vista real.
+Todas estas rutas planificadas ya existen como botones o tarjetas visuales en el código (`IonItem button` en `MenuLateral.tsx`, tarjetas en `Inicio.tsx`), pero aún sin `routerLink` asociado ni componente de vista propio.
 
 ### b) Relaciones jerárquicas entre vistas
 - La arquitectura avanza desde un Nivel 0 público de autenticación, hacia un Nivel 1 centralizado que sirve como panel de control para acceder a las        funcionalidades del Nivel 2. Todo el flujo se apoya en un menú lateral dinámico, que se mantiene oculto durante el acceso y se activa únicamente al iniciar sesión.
 
-1. **Nivel 0 – Acceso:** /bienvenida → /iniciar-sesion o /registro (con sus 3 etapas internas manejadas por estado, no por sub-rutas).
-2. **Nivel 1 – Inicio:** /inicio es la única vista posterior al login/registro, y actúa como raíz real (aunque hoy sin hijos navegables) de la experiencia autenticada.
-3. **Menú lateral:** implementado con IonSplitPane + IonMenu (MenuLateral.tsx), oculto en rutas públicas (rutasPublicas = [/bienvenida, /iniciar-sesion, /registro, /]) y visible en el resto, calculado dinámicamente según location.pathname.
-4. **Nivel 2 – Funcionalidades de Usuario:** desde /inicio se desprenden como hijos directos y paralelos: Perfil, Configuración, Tutoriales y Ayuda.
+1. **Nivel 0 – Acceso:** `/bienvenida` → `/iniciar-sesion` o `/registro` (con sus 3 etapas internas manejadas por estado, no por sub-rutas).
+2. **Nivel 1 – Inicio:** `/inicio` es la única vista posterior al login/registro, y actúa como raíz real (aunque hoy sin hijos navegables) de la experiencia autenticada.
+3. **Menú lateral:** implementado con `IonSplitPane` + `IonMenu` (`MenuLateral.tsx`), oculto en rutas públicas (`rutasPublicas = ['/bienvenida', '/iniciar-sesion', '/registro', '/']`) y visible en el resto, calculado dinámicamente según `location.pathname`.
+**Diseñado, planificado (según diagrama de flujo):**
+4. **Nivel 2 – Funcionalidades de Usuario:** desde `/inicio` se desprenden como hijos directos y paralelos: Perfil, Configuración, Tutoriales y Ayuda.
 5. **Nivel 3 – Tutoriales:** Tutoriales se abre en un nivel adicional hacia cada módulo (Tutorial 1 a 4).
-6. **Subárbol de Administrador (independiente del de Usuario):** al igual que en Usuario, la jerarquía diseñada para Administrador tiene dos niveles y es paralela: Panel de administración (raíz) → Gestión de módulos, Métricas y estadísticas y Gestión de usuarios (los tres como hijos directos y paralelos del panel)
+6. **Subárbol de Administrador (independiente del de Usuario):** a diferencia de Usuario, la jerarquía diseñada para Administrador es de tres niveles y **no paralela**: `Panel de administración` (raíz) → `Gestión de módulos` (único hijo directo) → `Métricas y estadísticas` y `Gestión de usuarios` (hijos de `Gestión de módulos`, no del panel). Es decir, el Administrador no tiene múltiples accesos directos desde su home, sino un único punto de entrada funcional que luego se ramifica.
 
 ### c) Flujo de navegación entre funcionalidades
-**/bienvenida → /iniciar-sesion o /registro → /inicio**
-Dentro de /registro, el flujo es secuencial y validado en cada paso (validarNombre(), validarCredenciales()), mostrando el mensaje "Todavía falta un dato" cuando el campo está vacío o las contraseñas no coinciden, y devolviendo al usuario al mismo paso sin perder lo ya ingresado (RF04). Desde /inicio, el usuario ve las cuatro secciones (Practicar, Mi Perfil, Configuración, Ayuda) como parte del diseño de navegación, aunque hoy son solo informativas hasta que se conecten sus rutas.
-Una vez conectadas las rutas de /inicio, el flujo de navegación entre Perfil, Configuración, Tutoriales y Ayuda será **libre y no secuencial** 
+El flujo funcional hoy es: **`/bienvenida` → `/iniciar-sesion` o `/registro` → `/inicio`**. Dentro de `/registro`, el flujo es secuencial y validado en cada paso (`validarNombre()`, `validarCredenciales()`).
+
+**Diseñado, planificado:**
+Una vez conectadas las rutas de `/inicio`, el flujo de navegación entre Perfil, Configuración, Tutoriales y Ayuda será **libre y no secuencial** (el usuario puede moverse entre ellas en cualquier orden desde el menú lateral o las tarjetas de Inicio).
 
 ### d) Diferenciación de acceso según roles
 ** Implementado actualmente:**
 El código **no diferencia roles todavía**. Toda persona que inicia sesión (/iniciar-sesion) o completa el registro (/registro) llega exactamente a la misma vista.
 **Diseño planificado**
-- **Usuario:** ingresará por /iniciar-sesion o completará el registro, y será dirigido a /inicio, con acceso a Practicar, Mi Perfil, Configuración y Ayuda.
-- **Administrador:** ingresará por una pantalla de login independiente (/admin/iniciar-sesion, ya diseñada en los mockups como "Acceso Seguro") y será dirigido a /admin/panel, con acceso directo y paralelo a Gestión de módulos, Métricas y estadísticas y Gestión de usuarios. Este subárbol no incluirá Ayuda ni Practicar, ya que esas funcionalidades están diseñadas para la Proto-Persona "Usuario Aprendiz", no para el Coordinador de Capacitación.
+- **Usuario:** ingresará por `/iniciar-sesion` o completará el registro, y será dirigido a `/inicio`, con acceso a Practicar, Mi Perfil, Configuración y Ayuda
+- **Administrador:** ingresará por una pantalla de login independiente (`/admin/iniciar-sesion`, ya diseñada en los mockups como "Acceso Seguro") y será dirigido a `/admin/panel`, con acceso exclusivo a Gestión de módulos (Métricas y estadísticas, Gestión de usuarios).
 
 ### e) Flujo de principales tareas (task flow)
 El estado actual presentara 4 task flows, es decir que estarn imlementada en codigo 
 **Task flow 1 – Registro de un nuevo usuario:**
-/bienvenida → "Comenzar" → /registro (etapa 1: nombre, válido) → etapa 2: correo y contraseña (válido) → etapa 3: "¡Felicidades!" → botón "Continuar" → /inicio.
+`/bienvenida` → "Comenzar" → `/registro` (etapa 1: nombre, válido) → etapa 2: correo y contraseña (válido) → etapa 3: "¡Felicidades!" → botón "Continuar" → `/inicio`.
+
 **Task flow 2 – Corrección de un dato faltante:**
-En cualquier etapa de /registro, si el campo está vacío o las contraseñas no coinciden → mensaje "Todavía falta un dato" → corrección sobre el mismo formulario
+En cualquier etapa de `/registro`, si el campo está vacío o las contraseñas no coinciden → mensaje "Todavía falta un dato" → corrección sobre el mismo formulario.
 **Task flow 3 – Uso del explicador guiado:**
-Etapa 1 o 2 de /registro → botón "Ver la explicación" / "Ver explicación guiada" → pasos numerados (PASO 1, PASO 2...) → botón "Cerrar explicación y escribir" → vuelve al formulario sin perder el progreso.
+Etapa 1 o 2 de `/registro` → botón "Ver la explicación" / "Ver explicación guiada" → pasos numerados (PASO 1, PASO 2...) → botón "Cerrar explicación y escribir" → vuelve al formulario sin perder el progreso.
 **Task flow 4 – Inicio de sesión:**
-/bienvenida → "Iniciar sesión" → /iniciar-sesion → completar correo/teléfono y contraseña → botón "Iniciar Sesión" → /inicio.
+`/bienvenida` → "Iniciar sesión" → `/iniciar-sesion` → completar correo/teléfono y contraseña → botón "Iniciar Sesión" → `/inicio`.
 
 en entregas futuras abran mas task flows
 
 ### f) Puntos críticos de interacción
 **Implementados para Entrega parcial 1**
-- **Validación por etapa en /registro:** usa mensajes claros y sin tecnicismos ("No has puesto tu nombre. No pasó nada: puedes corregirlo ahora"), y nunca borra lo que el usuario ya escribió al mostrar un error.
-- **Visibilidad condicional del menú lateral:** se calcula en cada render a partir de location.pathname; agregar una nueva ruta pública sin sumarla a rutasPublicas haría aparecer el menú donde no corresponde, por lo que es un punto que requiere disciplina al escalar el proyecto.
+- **Validación por etapa en `/registro`:** usa mensajes claros y sin tecnicismos ("No has puesto tu nombre. No pasó nada: puedes corregirlo ahora"), y nunca borra lo que el usuario ya escribió al mostrar un error.
+- **Visibilidad condicional del menú lateral:** se calcula en cada render a partir de `location.pathname`; agregar una nueva ruta pública sin sumarla a `rutasPublicas` haría aparecer el menú donde no corresponde, por lo que es un punto que requiere disciplina al escalar el proyecto.
+
 - **Pendiente por hacer**
--**Botones sin ruta asignada (Practicar, Mi Perfil, Configuración, Ayuda):**
-- **Único punto de entrada al subárbol de Administrador (Gestión de módulos):**
+- **Botones sin ruta asignada (Practicar, Mi Perfil, Configuración, Ayuda):** hoy son visualmente completos pero no navegables; deben conectarse antes de EP1.6 para cumplir con el mínimo de 4 pantallas navegables exigido por la pauta.
+- **Único punto de entrada al subárbol de Administrador (Gestión de módulos):** al no existir accesos directos paralelos desde el panel raíz, un fallo o lentitud en la carga de "Gestión de módulos" bloquearía el acceso tanto a Métricas y estadísticas como a Gestión de usuarios; se deberá evaluar en EP2 si esta jerarquía anidada afecta la eficiencia de uso del Coordinador de Capacitación.
+- **Verificación de rol en rutas protegidas:** el `PrivateRoute` que se implementará en EP2.5 será el punto crítico de seguridad más importante del sistema, ya que un error en la validación del JWT podría exponer rutas de Administrador a un Usuario común.
+
 ### g) Coherencia de experiencia entre dispositivos
-El uso de IonSplitPane permite que el mismo menú lateral (MenuLateral.tsx) se comporte como panel fijo en pantallas anchas (web/escritorio) y como menú deslizable tipo overlay en pantallas angostas (móvil).
-- **Verificación de rol en rutas protegidas:**
+El uso de `IonSplitPane` permite que el mismo menú lateral (`MenuLateral.tsx`) se comporte como panel fijo en pantallas anchas (web/escritorio) y como menú deslizable tipo overlay en pantallas angostas (móvil), sin duplicar código de navegación. Los encabezados con botones "Lectura" y "Ayuda" (`IonButtons slot="end"`) se repiten de forma consistente en `Login.tsx`, `Registro.tsx` e `Inicio.tsx`.
+
 ### h) Justificación técnica de las decisiones de arquitectura
-- **Usabilidad:** manejar el registro como una sola ruta con estado interno (etapa) evita que el usuario pierda su progreso al usar el botón "atrás" del navegador entre etapas, algo crítico para la Proto-Persona "Usuario Aprendiz".
-- **Eficiencia de interacción:** la validación ocurre en el cliente antes de avanzar de etapa
-- **Claridad estructural:** separar el menú lateral como componente independiente
+- **Usabilidad:** manejar el registro como una sola ruta con estado interno (`etapa`) evita que el usuario pierda su progreso al usar el botón "atrás" del navegador entre etapas, algo crítico para la Proto-Persona "Usuario Aprendiz".
+- **Eficiencia de interacción:** la validación ocurre en el cliente antes de avanzar de etapa (`validarNombre`, `validarCredenciales`).
+- **Claridad estructural:** separar el menú lateral como componente independiente (`MenuLateral.tsx`), y ocultarlo condicionalmente según la ruta, facilita escalar el proyecto sin reescribir la lógica de layout.
 
 **Decisiones de diseño a aplicar en próximas entregas:**
-- **Escalabilidad:**
-- **Seguridad y claridad de roles:**
-- **Jerarquía anidada del Administrador:**
+- **Escalabilidad:** dejar los ítems Practicar, Mi Perfil, Configuración y Ayuda ya visibles en el menú y en `Inicio.tsx` —aunque todavía sin ruta— permite conectarlos progresivamente sin rediseñar la navegación general ya construida.
+- **Seguridad y claridad de roles:** concentrar toda la lógica de diferenciación de roles en un único componente `PrivateRoute` (en vez de repetir validaciones en cada vista) reducirá el riesgo de inconsistencias al conectar el backend en EP2.
+- **Jerarquía anidada del Administrador:** modelar "Gestión de módulos" como nodo intermedio entre el panel raíz y sus dos subsecciones (en vez de dejarlas como accesos paralelos).
 
 Link a Mockups [Figma](https://www.figma.com/design/u9nffOZTdsYh1RBRvRnf2z/Alfabetizacion-Web?m=auto&t=Ux02yCFqAIKCVX0t-1)
