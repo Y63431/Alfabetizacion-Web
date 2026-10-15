@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { probarConexion } from './config/db.js';
 
 dotenv.config();
 
@@ -10,6 +11,9 @@ const PORT = process.env.PORT || 3000;
 // Middlewares globales
 app.use(cors());
 app.use(express.json());
+
+//Probamos conexion a BD
+probarConexion();
 
 // Ruta base de comprobación de salud de la API
 app.get('/api/health', (req, res) => {

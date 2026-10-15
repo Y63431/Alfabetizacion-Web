@@ -9,9 +9,6 @@
 ---
 ## Distribución de responsabilidades
 
-
-
-
 | Nombre | Rol en el proyecto |
 | :--- | :--- |
 | [Alexis Parra   ] | Figma |
@@ -234,3 +231,4 @@ El uso de `IonSplitPane` permite que el mismo menú lateral (`MenuLateral.tsx`) 
 - **Escalabilidad:** dejar los ítems Practicar, Mi Perfil, Configuración y Ayuda ya visibles en el menú y en `Inicio.tsx` —aunque todavía sin ruta— permite conectarlos progresivamente sin rediseñar la navegación general ya construida.
 - **Seguridad y claridad de roles:** concentrar toda la lógica de diferenciación de roles en un único componente `PrivateRoute` (en vez de repetir validaciones en cada vista) reducirá el riesgo de inconsistencias al conectar el backend en EP2.
 - **Jerarquía anidada del Administrador:** modelar "Gestión de módulos" como nodo intermedio entre el panel raíz y sus dos subsecciones (en vez de dejarlas como accesos paralelos).
+
