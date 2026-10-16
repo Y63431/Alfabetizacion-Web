@@ -2,38 +2,43 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { probarConexion } from './config/db.js';
-import modulosRoutes from './routes/modulos_rutas.js';
-import progresoRoutes from './routes/progreso_rutas.js';
+
+// Importar rutas
+import authRutas from './routes/auth_rutas.js';
+import modulosRutas from './routes/modulos_rutas.js';
+import progresoRutas from './routes/progreso_rutas.js';
+
+// Importar middlewares de error y autenticación
 import { rutaNoEncontrada, errorHandler } from './middlewares/error.js';
+import { verificarToken } from './middlewares/auth.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares globales
 app.use(cors());
 app.use(express.json());
 
-// Probamos conexion a BD
+// Probar conexión a la BD
 probarConexion();
 
-// Ruta base de comprobación de salud de la API
+// Endpoints Públicos
 app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    ok: true,
-    message: 'API Municipio Fácil operativa y escuchando solicitudes',
-    timestamp: new Date().toISOString()
-  });
+  res.status(200).json({ ok: true, message: 'API Municipio Fácil operativa' });
 });
+app.use('/api/auth', authRutas);
 
-app.use('/api/modulos', modulosRoutes);
-app.use('/api/progreso', progresoRoutes);
+// Endpoints de Módulos (Lectura pública, si se prefiere)
+app.use('/api/modulos', modulosRutas);
 
+// Endpoints Protegidos (Requieren JWT enviado en Header: Authorization: Bearer <TOKEN>)
+app.use('/api/progreso', verificarToken, progresoRutas);
+
+// Manejo de errores
 app.use(rutaNoEncontrada);
 app.use(errorHandler);
 
-// Inicialización del servidor
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
 });

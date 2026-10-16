@@ -1,0 +1,100 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { pool } from '../config/db.js';
+import { ApiError } from '../middlewares/error.js';
+
+const SALT_ROUNDS = 10;
+
+// POST /api/auth/registro
+export const registrarUsuario = async (req, res) => {
+  const { nombre, email, password, telefono } = req.body ?? {};
+
+  // Validaciones básicas de entrada
+  if (!nombre || typeof nombre !== 'string' || nombre.trim() === '') {
+    throw new ApiError(400, 'El nombre es obligatorio');
+  }
+  if (!email || !email.includes('@')) {
+    throw new ApiError(400, 'Debes proporcionar un email válido');
+  }
+  if (!password || password.length < 6) {
+    throw new ApiError(400, 'La contraseña debe tener al menos 6 caracteres');
+  }
+
+  // Hashear contraseña con bcrypt
+  const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+
+  // Rol por defecto: 1 = ciudadano
+  const rolIdPorDefecto = 1;
+
+  const { rows } = await pool.query(
+    `INSERT INTO usuarios (nombre, email, password_hash, telefono, rol_id)
+     VALUES ($1, $2, $3, $4, $5)
+     RETURNING id, nombre, email, telefono, rol_id, creado_en`,
+    [nombre.trim(), email.trim().toLowerCase(), passwordHash, telefono || null, rolIdPorDefecto]
+  );
+
+  const nuevoUsuario = rows[0];
+
+  // Generar JWT
+  const token = jwt.sign(
+    { id: nuevoUsuario.id, email: nuevoUsuario.email, rol_id: nuevoUsuario.rol_id },
+    process.env.JWT_SECRET || 'secreto_desarrollo_local',
+    { expiresIn: '24h' }
+  );
+
+  res.status(201).json({
+    ok: true,
+    message: 'Usuario registrado con éxito',
+    data: {
+      usuario: nuevoUsuario,
+      token
+    }
+  });
+};
+
+// POST /api/auth/login
+export const iniciarSesion = async (req, res) => {
+  const { email, password } = req.body ?? {};
+
+  if (!email || !password) {
+    throw new ApiError(400, 'Debes ingresar email y contraseña');
+  }
+
+  // Buscar usuario en la base de datos
+  const { rows } = await pool.query(
+    'SELECT * FROM usuarios WHERE email = $1 AND activo = TRUE',
+    [email.trim().toLowerCase()]
+  );
+
+  if (rows.length === 0) {
+    throw new ApiError(401, 'Credenciales inválidas (email o contraseña incorrectos)');
+  }
+
+  const usuario = rows[0];
+
+  // Comparar la contraseña ingresada con el hash de la BD
+  const esPasswordCorrecto = await bcrypt.compare(password, usuario.password_hash);
+
+  if (!esPasswordCorrecto) {
+    throw new ApiError(401, 'Credenciales inválidas (email o contraseña incorrectos)');
+  }
+
+  // Generar JWT
+  const token = jwt.sign(
+    { id: usuario.id, email: usuario.email, rol_id: usuario.rol_id },
+    process.env.JWT_SECRET || 'secreto_desarrollo_local',
+    { expiresIn: '24h' }
+  );
+
+  // Omitir el hash de la contraseña en la respuesta
+  const { password_hash, ...datosUsuario } = usuario;
+
+  res.status(200).json({
+    ok: true,
+    message: 'Inicio de sesión exitoso',
+    data: {
+      usuario: datosUsuario,
+      token
+    }
+  });
+};

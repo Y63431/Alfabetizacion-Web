@@ -17,7 +17,7 @@
 .DS_Store
 Thumbs.db
 **/.env
-**/.env.*
+**/.env
 **/.nx/
 **/.nx/cache/
 npm-debug.log*
