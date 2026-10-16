@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { probarConexion } from './config/db.js';
+import modulosRoutes from './routes/modulos_rutas.js';
+import progresoRoutes from './routes/progreso_rutas.js';
+import { rutaNoEncontrada, errorHandler } from './middlewares/error.js';
 
 dotenv.config();
 
@@ -12,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-//Probamos conexion a BD
+// Probamos conexion a BD
 probarConexion();
 
 // Ruta base de comprobación de salud de la API
@@ -23,6 +26,12 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+app.use('/api/modulos', modulosRoutes);
+app.use('/api/progreso', progresoRoutes);
+
+app.use(rutaNoEncontrada);
+app.use(errorHandler);
 
 // Inicialización del servidor
 app.listen(PORT, () => {

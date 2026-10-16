@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS modulos_tutoriales (
     titulo VARCHAR(150) NOT NULL,
     descripcion TEXT NOT NULL,
     dificultad VARCHAR(20) DEFAULT 'Facil' CHECK (dificultad IN ('Facil', 'Media', 'Alta')),
-    total_pasos INT NOT NULL DEFAULT 4,
+    total_pasos INT NOT NULL DEFAULT 4 check (total_pasos > 0),
     estado VARCHAR(20) DEFAULT 'Habilitado' CHECK (estado IN ('Habilitado', 'Borrador', 'Deshabilitado')),
     creado_por INT,
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS progreso_usuarios (
     tiempo_segundos INT DEFAULT 0,
     actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_progreso_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    CONSTRAINT fk_progreso_modulo FOREIGN KEY (modulo_id) REFERENCES modulos_tutoriales(id) ON DELETE CASCADE
+    CONSTRAINT fk_progreso_modulo FOREIGN KEY (modulo_id) REFERENCES modulos_tutoriales(id) ON DELETE CASCADE,
+    CONSTRAINT UQprogreso_usuario_modulo UNIQUE (usuario_id, modulo_id) -- para que un usuario no inicie dos veces el mismo módulo.
 );
 
 -- DATOS INICIALES Y DE PRUEBA
@@ -59,3 +60,13 @@ INSERT INTO modulos_tutoriales (id, titulo, descripcion, dificultad, total_pasos
 (3, 'Descarga un certificado', 'Guía para descargar certificados de residencia y actas.', 'Media', 3, 'Habilitado'),
 (4, 'Pagar servicios básicos', 'Simulador seguro para el pago en línea de derechos de aseo.', 'Alta', 4, 'Deshabilitado')
 ON CONFLICT (id) DO NOTHING;
+
+
+-- Usuario de prueba para login y pruebas 
+INSERT INTO usuarios (id, nombre, email, password_hash, rol_id) VALUES
+(1, 'Usuario de Prueba', 'prueba@municipiofacil.cl', 'hash_de_prueba', 1)
+ON CONFLICT (id) DO NOTHING;
+
+SELECT setval(pg_get_serial_sequence('roles', 'id'), (SELECT MAX(id) FROM roles));
+SELECT setval(pg_get_serial_sequence('usuarios', 'id'), (SELECT MAX(id) FROM usuarios));
+SELECT setval(pg_get_serial_sequence('modulos_tutoriales', 'id'), (SELECT MAX(id) FROM modulos_tutoriales));
