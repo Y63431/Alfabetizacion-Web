@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard,
-  IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonButtons, IonIcon, IonText
+  IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonButtons, IonIcon, IonText, IonToast
 } from '@ionic/react';
 import {
   volumeMediumOutline, helpCircleOutline, arrowBackOutline,
   arrowForwardOutline, alertCircleOutline, checkmarkCircleOutline, syncOutline
 } from 'ionicons/icons';
+// 1. Importamos el servicio
+import { registroService } from '../services/auth.service';
 
 const Registro: React.FC = () => {
   const [etapa, setEtapa] = useState<number>(1);
   const [mostrarGuia, setMostrarGuia] = useState<boolean>(false);
   const [errorPaso, setErrorPaso] = useState<boolean>(false);
+  
+  // 2. Estados para el manejo de errores del backend
+  const [mensajeError, setMensajeError] = useState<string>('');
+  const [mostrarToast, setMostrarToast] = useState<boolean>(false);
 
   const [nombre, setNombre] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -28,13 +34,27 @@ const Registro: React.FC = () => {
     }
   };
 
-  const validarCredenciales = () => {
+  // 3. Transformamos a async para conectarnos a la base de datos
+  const validarCredenciales = async () => {
+    // Validación local básica
     if (email.trim().length === 0 || password.length < 8 || password !== confirmPassword) {
       setErrorPaso(true);
-    } else {
-      setErrorPaso(false);
+      return;
+    } 
+    
+    setErrorPaso(false);
+
+    try {
+      // Llamada real al backend
+      await registroService(nombre, email, password);
+      
+      // Si el backend responde 201 Created, pasamos a la etapa 3 (Éxito)
       setMostrarGuia(false);
       setEtapa(3);
+    } catch (error: any) {
+      // Si el backend rechaza el registro (ej. correo duplicado o formato inválido)
+      setMensajeError(error.message);
+      setMostrarToast(true);
     }
   };
 
@@ -83,7 +103,7 @@ const Registro: React.FC = () => {
               <div>
                 <h3 style={{ margin: '0 0 4px 0', color: '#9b1c1c', fontWeight: 'bold' }}>Todavía falta un dato</h3>
                 <p style={{ margin: 0, color: '#9b1c1c' }}>
-                  {etapa === 1 ? 'No has puesto tu nombre. No pasó nada: puedes corregirlo ahora.' : 'No has puesto tu correo o las contraseñas no coinciden. No pasó nada: puedes corregirlo ahora.'}
+                  {etapa === 1 ? 'No has puesto tu nombre. No pasó nada: puedes corregirlo ahora.' : 'Revisa tu correo o asegúrate de que las contraseñas coincidan.'}
                 </p>
               </div>
             </div>
@@ -195,6 +215,17 @@ const Registro: React.FC = () => {
           )}
 
         </div>
+
+        {/* 4. Notificación visual si el servidor rechaza el registro */}
+        <IonToast
+          isOpen={mostrarToast}
+          onDidDismiss={() => setMostrarToast(false)}
+          message={mensajeError}
+          duration={4000}
+          color="danger"
+          position="bottom"
+        />
+
       </IonContent>
     </IonPage>
   );
