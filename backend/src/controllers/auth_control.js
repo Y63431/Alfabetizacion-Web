@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { pool } from '../config/db.js';
 import { ApiError } from '../middlewares/error.js';
+import { validarLogin, validarRegistro } from '../util/validacion.js';
 
 const SALT_ROUNDS = 10;
 
@@ -9,16 +10,7 @@ const SALT_ROUNDS = 10;
 export const registrarUsuario = async (req, res) => {
   const { nombre, email, password, telefono } = req.body ?? {};
 
-  // Validaciones básicas de entrada
-  if (!nombre || typeof nombre !== 'string' || nombre.trim() === '') {
-    throw new ApiError(400, 'El nombre es obligatorio');
-  }
-  if (!email || !email.includes('@')) {
-    throw new ApiError(400, 'Debes proporcionar un email válido');
-  }
-  if (!password || password.length < 6) {
-    throw new ApiError(400, 'La contraseña debe tener al menos 6 caracteres');
-  }
+  validarRegistro(nombre, email, password, telefono);
 
   // Hashear contraseña con bcrypt
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
@@ -30,7 +22,7 @@ export const registrarUsuario = async (req, res) => {
     `INSERT INTO usuarios (nombre, email, password_hash, telefono, rol_id)
      VALUES ($1, $2, $3, $4, $5)
      RETURNING id, nombre, email, telefono, rol_id, creado_en`,
-    [nombre.trim(), email.trim().toLowerCase(), passwordHash, telefono || null, rolIdPorDefecto]
+    [nombre.trim(), email.trim().toLowerCase(), passwordHash, telefono?.trim() || null, rolIdPorDefecto]
   );
 
   const nuevoUsuario = rows[0];
@@ -56,9 +48,7 @@ export const registrarUsuario = async (req, res) => {
 export const iniciarSesion = async (req, res) => {
   const { email, password } = req.body ?? {};
 
-  if (!email || !password) {
-    throw new ApiError(400, 'Debes ingresar email y contraseña');
-  }
+  validarLogin(email, password);
 
   // Buscar usuario en la base de datos
   const { rows } = await pool.query(

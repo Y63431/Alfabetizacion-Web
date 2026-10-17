@@ -61,12 +61,6 @@ INSERT INTO modulos_tutoriales (id, titulo, descripcion, dificultad, total_pasos
 (4, 'Pagar servicios básicos', 'Simulador seguro para el pago en línea de derechos de aseo.', 'Alta', 4, 'Deshabilitado')
 ON CONFLICT (id) DO NOTHING;
 
-
--- Usuario de prueba para login y pruebas 
-INSERT INTO usuarios (id, nombre, email, password_hash, rol_id) VALUES
-(1, 'Usuario de Prueba', 'prueba@municipiofacil.cl', 'hash_de_prueba', 1)
-ON CONFLICT (id) DO NOTHING;
-
 SELECT setval(pg_get_serial_sequence('roles', 'id'), (SELECT MAX(id) FROM roles));
 SELECT setval(pg_get_serial_sequence('usuarios', 'id'), (SELECT MAX(id) FROM usuarios));
 SELECT setval(pg_get_serial_sequence('modulos_tutoriales', 'id'), (SELECT MAX(id) FROM modulos_tutoriales));
