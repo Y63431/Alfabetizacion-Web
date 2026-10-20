@@ -1,18 +1,17 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { probarConexion } from './config/db.js';
 
 // Importar rutas
 import authRutas from './routes/auth_rutas.js';
 import modulosRutas from './routes/modulos_rutas.js';
 import progresoRutas from './routes/progreso_rutas.js';
+import adminRutas from './routes/admin_rutas.js';
 
 // Importar middlewares de error y autenticación
 import { rutaNoEncontrada, errorHandler } from './middlewares/error.js';
 import { verificarToken } from './middlewares/auth.js';
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,6 +33,7 @@ app.use('/api/modulos', modulosRutas);
 
 // Endpoints Protegidos (Requieren JWT enviado en Header: Authorization: Bearer <TOKEN>)
 app.use('/api/progreso', verificarToken, progresoRutas);
+app.use('/api/admin', adminRutas);
 
 // Manejo de errores
 app.use(rutaNoEncontrada);

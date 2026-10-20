@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { pool } from '../config/db.js';
@@ -30,7 +31,7 @@ export const registrarUsuario = async (req, res) => {
   // Generar JWT
   const token = jwt.sign(
     { id: nuevoUsuario.id, email: nuevoUsuario.email, rol_id: nuevoUsuario.rol_id },
-    process.env.JWT_SECRET || 'secreto_desarrollo_local',
+    process.env.JWT_SECRET,
     { expiresIn: '24h' }
   );
 
@@ -72,7 +73,7 @@ export const iniciarSesion = async (req, res) => {
   // Generar JWT
   const token = jwt.sign(
     { id: usuario.id, email: usuario.email, rol_id: usuario.rol_id },
-    process.env.JWT_SECRET || 'secreto_desarrollo_local',
+    process.env.JWT_SECRET,
     { expiresIn: '24h' }
   );
 

@@ -1,11 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   IonMenu, IonHeader, IonToolbar, IonTitle, IonContent,
   IonList, IonItem, IonIcon, IonLabel, IonMenuToggle
 } from '@ionic/react';
-import { bookOutline, personOutline, settingsOutline, helpCircleOutline, homeOutline } from 'ionicons/icons';
+import { bookOutline, personOutline, settingsOutline, helpCircleOutline, homeOutline, logOutOutline } from 'ionicons/icons';
+import { eliminarSesion } from '../services/autenticacion';
 
 const MenuLateral: React.FC = () => {
+  const navigate = useNavigate();
+
+  const cerrarSesion = () => {
+    eliminarSesion();
+    navigate('/bienvenida', { replace: true });
+  };
+
   return (
     <IonMenu contentId="main-content" type="overlay">
       <IonHeader>
@@ -23,7 +32,7 @@ const MenuLateral: React.FC = () => {
           </IonMenuToggle>
 
           <IonMenuToggle autoHide={false}>
-            <IonItem button style={{ marginBottom: '10px' }}>
+            <IonItem button routerLink="/practicar" routerDirection="root" style={{ marginBottom: '10px' }}>
               <IonIcon icon={bookOutline} slot="start" style={{ color: '#0f5132' }} />
               <IonLabel>
                 <h2 style={{ fontWeight: 'bold', color: '#333' }}>Practicar</h2>
@@ -33,7 +42,7 @@ const MenuLateral: React.FC = () => {
           </IonMenuToggle>
 
           <IonMenuToggle autoHide={false}>
-            <IonItem button style={{ marginBottom: '10px' }}>
+            <IonItem button routerLink="/perfil" routerDirection="root" style={{ marginBottom: '10px' }}>
               <IonIcon icon={personOutline} slot="start" style={{ color: '#0f5132' }} />
               <IonLabel>
                 <h2 style={{ fontWeight: 'bold', color: '#333' }}>Mi Perfil</h2>
@@ -43,7 +52,7 @@ const MenuLateral: React.FC = () => {
           </IonMenuToggle>
 
           <IonMenuToggle autoHide={false}>
-            <IonItem button style={{ marginBottom: '10px' }}>
+            <IonItem button routerLink="/configuracion" routerDirection="root" style={{ marginBottom: '10px' }}>
               <IonIcon icon={settingsOutline} slot="start" style={{ color: '#0f5132' }} />
               <IonLabel>
                 <h2 style={{ fontWeight: 'bold', color: '#333' }}>Configuración</h2>
@@ -53,7 +62,7 @@ const MenuLateral: React.FC = () => {
           </IonMenuToggle>
 
           <IonMenuToggle autoHide={false}>
-            <IonItem button style={{ marginBottom: '10px' }}>
+            <IonItem button routerLink="/ayuda" routerDirection="root" style={{ marginBottom: '10px' }}>
               <IonIcon icon={helpCircleOutline} slot="start" style={{ color: '#0f5132' }} />
               <IonLabel>
                 <h2 style={{ fontWeight: 'bold', color: '#333' }}>Ayuda</h2>
@@ -61,6 +70,10 @@ const MenuLateral: React.FC = () => {
               </IonLabel>
             </IonItem>
           </IonMenuToggle>
+          <IonItem button onClick={cerrarSesion} style={{ marginBottom: '10px' }}>
+            <IonIcon icon={logOutOutline} slot="start" style={{ color: '#0f5132' }} />
+            <IonLabel style={{ fontWeight: 'bold' }}>Cerrar sesión</IonLabel>
+          </IonItem>
         </IonList>
       </IonContent>
     </IonMenu>
