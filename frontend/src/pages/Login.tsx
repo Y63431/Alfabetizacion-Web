@@ -1,36 +1,38 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard,
-  IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonButtons, 
-  IonIcon, IonText, IonToast, useIonRouter
+  IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonButtons, IonIcon, IonText
 } from '@ionic/react';
 import { volumeMediumOutline, helpCircleOutline, arrowForwardOutline } from 'ionicons/icons';
-import { loginService } from '../services/auth.service';
+import { iniciarSesion } from '../services/autenticacion';
 
 const Login: React.FC = () => {
-  // Estados para la lógica
-  const [email, setEmail] = useState<string>('');
+  const navigate = useNavigate();
+  const [identificador, setIdentificador] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [mensajeError, setMensajeError] = useState<string>('');
-  const [mostrarToast, setMostrarToast] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [enviando, setEnviando] = useState<boolean>(false);
 
-  // Hook nativo de Ionic para navegación (reemplaza a useHistory)
-  const router = useIonRouter();
+  const validarCredenciales = async () => {
+    setError('');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identificador.trim())) {
+      setError('Escribe un correo electrónico válido.');
+      return;
+    }
+    if (password.length === 0) {
+      setError('Escribe tu contraseña para continuar.');
+      return;
+    }
 
-  // Función de inicio de sesión conectada a tu backend
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+    setEnviando(true);
     try {
-      // Llamamos al servicio (asegúrate de que la ruta de importación sea correcta)
-      await loginService(email, password);
-      
-      // Redirigir al inicio si las credenciales son correctas
-      router.push('/inicio', 'forward', 'push');
-      
-    } catch (error: any) {
-      // Mostrar el error del backend (ej: credenciales inválidas)
-      setMensajeError(error.message);
-      setMostrarToast(true);
+      const sesion = await iniciarSesion(identificador.trim(), password);
+      navigate(sesion.usuario.rol_id === 2 ? '/admin/panel' : '/inicio', { replace: true });
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'No se pudo iniciar sesión. Inténtalo nuevamente.');
+    } finally {
+      setEnviando(false);
     }
   };
 
@@ -44,7 +46,7 @@ const Login: React.FC = () => {
               <IonIcon slot="start" icon={volumeMediumOutline} />
               Lectura
             </IonButton>
-            <IonButton fill="clear">
+            <IonButton fill="clear" routerLink="/ayuda">
               <IonIcon slot="start" icon={helpCircleOutline} />
               Ayuda
             </IonButton>
@@ -57,67 +59,46 @@ const Login: React.FC = () => {
           <IonText color="dark">
             <h2 style={{ fontWeight: 'bold', fontSize: '2rem' }}>Iniciar sesión</h2>
             <p style={{ fontSize: '1.1rem' }}>Ingresa tu correo electrónico y contraseña para continuar.</p>
-            <p style={{ color: '#166534', fontWeight: 'bold' }}>Intentos ilimitados</p>
           </IonText>
 
           <IonCard style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
             <IonCardContent>
-              {/* Formulario envolviendo los inputs para manejar el submit */}
-              <form onSubmit={handleLogin}>
-                
+              <form onSubmit={(event) => {
+                event.preventDefault();
+                void validarCredenciales();
+              }}>
                 <IonItem lines="none" style={{ border: '2px solid #ccc', borderRadius: '8px', marginBottom: '16px' }}>
                   <IonLabel position="stacked" style={{ fontWeight: 'bold', color: '#333' }}>Correo electrónico</IonLabel>
-                  <IonInput 
-                    type="email"
-                    value={email} 
-                    placeholder="Ej: tunombre@gmail.com" 
-                    onIonInput={(e) => setEmail(e.detail.value ?? '')} 
-                    required
-                  />
+                  <IonInput type="email" value={identificador} placeholder="Ej: tunombre@gmail.com" onIonInput={(e) => setIdentificador(e.detail.value ?? '')} />
                 </IonItem>
 
                 <IonItem lines="none" style={{ border: '2px solid #ccc', borderRadius: '8px', marginBottom: '20px' }}>
                   <IonLabel position="stacked" style={{ fontWeight: 'bold', color: '#333' }}>Contraseña</IonLabel>
-                  <IonInput 
-                    type="password" 
-                    value={password} 
-                    placeholder="Ej: MunicipioF@cil123" 
-                    onIonInput={(e) => setPassword(e.detail.value ?? '')} 
-                    required
-                  />
+                  <IonInput type="password" value={password} placeholder="Ej: MunicipioF@cil123" onIonInput={(e) => setPassword(e.detail.value ?? '')} />
                 </IonItem>
 
-                <div style={{ marginBottom: '15px' }}>
-                  <IonText color="primary" style={{ cursor: 'pointer', display: 'block', marginBottom: '8px' }}>
-                    ¿Tiene problemas para iniciar sesión? Presione aquí
-                  </IonText>
-                  <IonText color="dark">
-                    ¿No tiene cuenta? <strong style={{ color: '#166534', cursor: 'pointer' }}>Regístrese aquí</strong>
-                  </IonText>
-                </div>
+                {error && <IonText color="danger"><p role="alert">{error}</p></IonText>}
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-                  {/* Se elimina routerLink y se cambia a type="submit" */}
-                  <IonButton type="submit" style={{ '--background': '#0f5132', '--border-radius': '20px', minWidth: '160px' }}>
-                    Iniciar Sesión
-                    <IonIcon slot="end" icon={arrowForwardOutline} />
+                <div style={{ marginBottom: '15px' }}>
+                  <IonButton fill="clear" routerLink="/registro">
+                    ¿No tiene cuenta? Regístrese aquí
                   </IonButton>
                 </div>
 
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+                  <IonButton
+                    type="submit"
+                    disabled={enviando}
+                    style={{ '--background': '#0f5132', '--border-radius': '20px', minWidth: '160px' }}
+                  >
+                    {enviando ? 'Comprobando...' : 'Iniciar Sesión'}
+                    <IonIcon slot="end" icon={arrowForwardOutline} />
+                  </IonButton>
+                </div>
               </form>
             </IonCardContent>
           </IonCard>
         </div>
-
-        {/* Notificación de error en caso de fallo de login */}
-        <IonToast
-          isOpen={mostrarToast}
-          onDidDismiss={() => setMostrarToast(false)}
-          message={mensajeError}
-          duration={3000}
-          color="danger"
-          position="bottom"
-        />
       </IonContent>
     </IonPage>
   );

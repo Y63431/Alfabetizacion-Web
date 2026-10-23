@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard,
-  IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonButtons, IonIcon, IonText, IonToast
+  IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonButtons, IonIcon
 } from '@ionic/react';
 import {
   volumeMediumOutline, helpCircleOutline, arrowBackOutline,
   arrowForwardOutline, alertCircleOutline, checkmarkCircleOutline, syncOutline
 } from 'ionicons/icons';
-// 1. Importamos el servicio
-import { registroService } from '../services/auth.service';
+import { registrarUsuario } from '../services/autenticacion';
 
 const Registro: React.FC = () => {
   const [etapa, setEtapa] = useState<number>(1);
   const [mostrarGuia, setMostrarGuia] = useState<boolean>(false);
   const [errorPaso, setErrorPaso] = useState<boolean>(false);
-  
-  // 2. Estados para el manejo de errores del backend
   const [mensajeError, setMensajeError] = useState<string>('');
-  const [mostrarToast, setMostrarToast] = useState<boolean>(false);
+  const [enviando, setEnviando] = useState<boolean>(false);
 
   const [nombre, setNombre] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -34,27 +31,40 @@ const Registro: React.FC = () => {
     }
   };
 
-  // 3. Transformamos a async para conectarnos a la base de datos
   const validarCredenciales = async () => {
-    // Validación local básica
-    if (email.trim().length === 0 || password.length < 8 || password !== confirmPassword) {
+    const correo = email.trim();
+    if (!/^[^\s@]+@gmail\.com$/i.test(correo)) {
       setErrorPaso(true);
+      setMensajeError('Escribe un correo Gmail válido para crear tu cuenta.');
       return;
-    } 
-    
-    setErrorPaso(false);
+    }
+    if (password.length < 8
+      || !/[a-z]/.test(password)
+      || !/[A-Z]/.test(password)
+      || !/[0-9]/.test(password)
+      || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setErrorPaso(true);
+      setMensajeError('La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setErrorPaso(true);
+      setMensajeError('Las contraseñas no coinciden. Revísalas e inténtalo nuevamente.');
+      return;
+    }
 
+    setErrorPaso(false);
+    setMensajeError('');
+    setEnviando(true);
     try {
-      // Llamada real al backend
-      await registroService(nombre, email, password);
-      
-      // Si el backend responde 201 Created, pasamos a la etapa 3 (Éxito)
+      await registrarUsuario(nombre.trim(), correo, password);
       setMostrarGuia(false);
       setEtapa(3);
-    } catch (error: any) {
-      // Si el backend rechaza el registro (ej. correo duplicado o formato inválido)
-      setMensajeError(error.message);
-      setMostrarToast(true);
+    } catch (cause) {
+      setErrorPaso(true);
+      setMensajeError(cause instanceof Error ? cause.message : 'No se pudo crear la cuenta. Inténtalo nuevamente.');
+    } finally {
+      setEnviando(false);
     }
   };
 
@@ -64,7 +74,7 @@ const Registro: React.FC = () => {
         <IonToolbar color="light">
           <IonTitle>Municipio Fácil</IonTitle>
           <IonButtons slot="end">
-            <IonButton fill="clear">
+            <IonButton fill="clear" routerLink="/ayuda">
               <IonIcon slot="start" icon={volumeMediumOutline} />
               Lectura
             </IonButton>
@@ -103,7 +113,9 @@ const Registro: React.FC = () => {
               <div>
                 <h3 style={{ margin: '0 0 4px 0', color: '#9b1c1c', fontWeight: 'bold' }}>Todavía falta un dato</h3>
                 <p style={{ margin: 0, color: '#9b1c1c' }}>
-                  {etapa === 1 ? 'No has puesto tu nombre. No pasó nada: puedes corregirlo ahora.' : 'Revisa tu correo o asegúrate de que las contraseñas coincidan.'}
+                  {mensajeError || (etapa === 1
+                    ? 'No has puesto tu nombre. No pasó nada: puedes corregirlo ahora.'
+                    : 'Revisa el correo y las contraseñas. Puedes corregir los datos ahora.')}
                 </p>
               </div>
             </div>
@@ -169,8 +181,8 @@ const Registro: React.FC = () => {
                       <IonButton fill="outline" onClick={() => setMostrarGuia(true)} style={{ '--border-radius': '10px' }}>
                         <IonIcon slot="start" icon={syncOutline} /> Ver explicación guiada
                       </IonButton>
-                      <IonButton onClick={validarCredenciales} style={{ '--background': '#0f5132', '--border-radius': '20px', minWidth: '150px' }}>
-                        Continuar <IonIcon slot="end" icon={arrowForwardOutline} />
+                      <IonButton onClick={validarCredenciales} disabled={enviando} style={{ '--background': '#0f5132', '--border-radius': '20px', minWidth: '150px' }}>
+                        {enviando ? 'Creando cuenta...' : 'Continuar'} <IonIcon slot="end" icon={arrowForwardOutline} />
                       </IonButton>
                     </div>
                   </>
@@ -215,17 +227,6 @@ const Registro: React.FC = () => {
           )}
 
         </div>
-
-        {/* 4. Notificación visual si el servidor rechaza el registro */}
-        <IonToast
-          isOpen={mostrarToast}
-          onDidDismiss={() => setMostrarToast(false)}
-          message={mensajeError}
-          duration={4000}
-          color="danger"
-          position="bottom"
-        />
-
       </IonContent>
     </IonPage>
   );
