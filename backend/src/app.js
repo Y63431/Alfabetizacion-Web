@@ -7,6 +7,7 @@ import { probarConexion } from './config/db.js';
 import authRutas from './routes/auth_rutas.js';
 import modulosRutas from './routes/modulos_rutas.js';
 import progresoRutas from './routes/progreso_rutas.js';
+import adminRoutes from './routes/admin_rutas.js';
 
 // Importar middlewares de error y autenticación
 import { rutaNoEncontrada, errorHandler } from './middlewares/error.js';
@@ -34,6 +35,9 @@ app.use('/api/modulos', modulosRutas);
 
 // Endpoints Protegidos (Requieren JWT enviado en Header: Authorization: Bearer <TOKEN>)
 app.use('/api/progreso', verificarToken, progresoRutas);
+
+app.use('/api/admin', adminRoutes);
+
 
 // Manejo de errores
 app.use(rutaNoEncontrada);
