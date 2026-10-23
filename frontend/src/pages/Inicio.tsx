@@ -5,11 +5,8 @@ import {
   IonGrid, IonRow, IonCol, IonButton
 } from '@ionic/react';
 import { volumeMediumOutline, helpCircleOutline, bookOutline, personOutline, settingsOutline } from 'ionicons/icons';
-import { obtenerSesion } from '../services/autenticacion';
 
 const Inicio: React.FC = () => {
-  const sesion = obtenerSesion();
-
   return (
     <IonPage>
       <IonHeader>
@@ -19,7 +16,7 @@ const Inicio: React.FC = () => {
           </IonButtons>
           <IonTitle>Municipio Fácil</IonTitle>
           <IonButtons slot="end">
-            <IonButton fill="clear" routerLink="/ayuda">
+            <IonButton fill="clear">
               <IonIcon icon={volumeMediumOutline} slot="start" />
               Lectura
             </IonButton>
@@ -36,7 +33,7 @@ const Inicio: React.FC = () => {
           
           <div style={{ marginBottom: '24px' }}>
             <h1 style={{ fontWeight: 'bold', color: '#111827', fontSize: '1.8rem' }}>
-              ¡Hola{sesion ? `, ${sesion.usuario.nombre}` : ''}! Bienvenido de vuelta a tu espacio de aprendizaje.
+              ¡Hola, Gabriel! Bienvenido de vuelta a tu espacio de aprendizaje.
             </h1>
             <p style={{ fontSize: '1.2rem', color: '#4b5563' }}>¿Qué te gustaría practicar hoy?</p>
             <div style={{ background: '#d1e7dd', color: '#0f5132', padding: '12px', borderRadius: '8px', fontWeight: 'bold', display: 'inline-block', marginTop: '10px' }}>
@@ -49,7 +46,7 @@ const Inicio: React.FC = () => {
           <IonGrid>
             <IonRow>
               <IonCol size="12" sizeMd="6">
-                <IonCard button routerLink="/practicar" style={{ border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: 'none', height: '100%' }}>
+                <IonCard style={{ border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: 'none', height: '100%' }}>
                   <IonCardContent style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <div style={{ background: '#e8f5e9', padding: '16px', borderRadius: '50%' }}>
                       <IonIcon icon={bookOutline} style={{ color: '#0f5132', fontSize: '32px' }} />
@@ -63,7 +60,7 @@ const Inicio: React.FC = () => {
               </IonCol>
 
               <IonCol size="12" sizeMd="6">
-                <IonCard button routerLink="/perfil" style={{ border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: 'none', height: '100%' }}>
+                <IonCard style={{ border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: 'none', height: '100%' }}>
                   <IonCardContent style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <div style={{ background: '#e3f2fd', padding: '16px', borderRadius: '50%' }}>
                       <IonIcon icon={personOutline} style={{ color: '#1565c0', fontSize: '32px' }} />
@@ -77,7 +74,7 @@ const Inicio: React.FC = () => {
               </IonCol>
 
               <IonCol size="12" sizeMd="6">
-                <IonCard button routerLink="/configuracion" style={{ border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: 'none', height: '100%' }}>
+                <IonCard style={{ border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: 'none', height: '100%' }}>
                   <IonCardContent style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <div style={{ background: '#f3e5f5', padding: '16px', borderRadius: '50%' }}>
                       <IonIcon icon={settingsOutline} style={{ color: '#6a1b9a', fontSize: '32px' }} />
@@ -91,7 +88,7 @@ const Inicio: React.FC = () => {
               </IonCol>
 
               <IonCol size="12" sizeMd="6">
-                <IonCard button routerLink="/ayuda" style={{ border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: 'none', height: '100%' }}>
+                <IonCard style={{ border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: 'none', height: '100%' }}>
                   <IonCardContent style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <div style={{ background: '#fff8e1', padding: '16px', borderRadius: '50%' }}>
                       <IonIcon icon={helpCircleOutline} style={{ color: '#f57f17', fontSize: '32px' }} />
