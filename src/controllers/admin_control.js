@@ -1,4 +1,5 @@
-import { pool } from '../config/db.js'; // Asegúrate de que la ruta sea correcta
+import { pool } from '../config/db.js'; 
+
 
 // GET /api/admin/usuarios
 export const obtenerUsuarios = async (req, res) => {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { obtenerUsuarios, obtenerMetricas } from '../controllers/admin_control.js';
+import { obtenerUsuarios, obtenerMetricas} from '../controllers/admin_control.js';
 import { verificarToken, esAdmin } from '../middlewares/auth.js'; 
 const router = Router();
 
