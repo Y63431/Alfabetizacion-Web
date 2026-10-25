@@ -124,3 +124,5 @@ Sigue estos pasos para levantar ambos entornos:
 <img width="1183" height="684" alt="Captura de pantalla 2026-10-25 181722" src="https://github.com/user-attachments/assets/bc890459-4561-4527-87c8-75efcd317c0e" />
 <img width="1186" height="708" alt="Captura de pantalla 2026-10-25 180547" src="https://github.com/user-attachments/assets/0a167dbd-00d9-48df-b370-2e3fb25bfd4e" />
 <img width="1186" height="676" alt="Captura de pantalla 2026-10-25 181452" src="https://github.com/user-attachments/assets/69fe217a-9913-4a54-9169-fac724175d32" />
+<img width="1185" height="675" alt="Captura de pantalla 2026-10-25 194111" src="https://github.com/user-attachments/assets/b3ad2f37-902b-4e7e-9775-dfb474f5072a" />
+<img width="1182" height="681" alt="Captura de pantalla 2026-10-25 194126" src="https://github.com/user-attachments/assets/85ec6133-e713-490e-be73-4ba3c30baef5" />
