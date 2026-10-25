@@ -1,7 +1,0 @@
-{
-  "name": "Alfabetizacion-Web",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react-vite"
-}
