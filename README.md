@@ -112,3 +112,15 @@ Sigue estos pasos para levantar ambos entornos:
    npx @ionic/cli serve
    
    ```
+
+### Pruebas de Endpoints con Insomnia:
+<img width="1436" height="817" alt="Captura de pantalla 2026-10-16 160018" src="https://github.com/user-attachments/assets/48c14748-1585-4c7c-a1b8-207b13e06f4c" />
+<img width="1442" height="821" alt="Captura de pantalla 2026-10-16 160218" src="https://github.com/user-attachments/assets/b88efa7b-fb6d-484b-beeb-587b83be53d2" />
+<img width="1437" height="857" alt="Captura de pantalla 2026-10-16 160605" src="https://github.com/user-attachments/assets/8b61a2db-d4fb-444f-b579-b6f75719184b" />
+<img width="1437" height="861" alt="Captura de pantalla 2026-10-16 161341" src="https://github.com/user-attachments/assets/44052335-057f-459c-b81c-497c22f595e9" />
+<img width="1179" height="677" alt="Captura de pantalla 2026-10-25 180157" src="https://github.com/user-attachments/assets/4e3243e2-df46-4b8a-a407-110e1058f026" />
+<img width="1186" height="685" alt="Captura de pantalla 2026-10-25 180217" src="https://github.com/user-attachments/assets/9b0da504-0c42-4ef4-9e4f-b9fa5dce3168" />
+<img width="1180" height="679" alt="Captura de pantalla 2026-10-25 181700" src="https://github.com/user-attachments/assets/2484740d-e911-4c4e-a31c-1ab7ec0ed073" />
+<img width="1183" height="684" alt="Captura de pantalla 2026-10-25 181722" src="https://github.com/user-attachments/assets/bc890459-4561-4527-87c8-75efcd317c0e" />
+<img width="1186" height="708" alt="Captura de pantalla 2026-10-25 180547" src="https://github.com/user-attachments/assets/0a167dbd-00d9-48df-b370-2e3fb25bfd4e" />
+<img width="1186" height="676" alt="Captura de pantalla 2026-10-25 181452" src="https://github.com/user-attachments/assets/69fe217a-9913-4a54-9169-fac724175d32" />
