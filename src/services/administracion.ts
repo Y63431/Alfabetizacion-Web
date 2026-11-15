@@ -79,3 +79,19 @@ export async function cambiarEstadoModulo(
   });
   return respuesta.data;
 }
+
+/** DELETE /modulos/:id */
+export async function eliminarModulo(id: number): Promise<void> {
+  await solicitarApi<ModuloAdministracion>(`/modulos/${id}`, { method: 'DELETE' });
+}
+
+/** PATCH /admin/usuarios/:id */
+export async function actualizarUsuario(
+  id: number,
+  cambios: { activo?: boolean; rol_id?: number }
+): Promise<void> {
+  await solicitarApi(`/admin/usuarios/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(cambios),
+  });
+}
