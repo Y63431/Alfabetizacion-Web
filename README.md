@@ -88,6 +88,7 @@ cp .env.example .env
 | `FRONTEND_ORIGIN` | Origen permitido por CORS |
 | `RESEND_API_KEY`, `CORREO_REMITENTE` | Correo de bienvenida (opcional) |
 | `ADMIN_NOMBRE`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Datos del primer administrador |
+| `DEMO_PASSWORD` | Contraseña de las cuentas de demostración |
 
 ### 4. Inicializar la Base de Datos
 
@@ -108,6 +109,13 @@ npm run dev
 ```
 
 El servidor estará escuchando peticiones en `http://localhost:3000/api`.
+
+### 7. Datos de demostración (opcional)
+
+```
+npm run datos-demo
+npm run datos-demo -- --borrar
+```
 
 ## Flujo de Trabajo Simultáneo (Frontend + Backend)
 
