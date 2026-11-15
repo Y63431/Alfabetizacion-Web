@@ -26,6 +26,7 @@
 * Catálogo de prácticas y lecciones guiadas con validación en cada paso.
 * Mi progreso, con barras de avance e insignias.
 * Lectura en voz alta de las instrucciones.
+* Ajuste del tamaño de letra.
 * Mi Perfil.
 * Gestión de módulos, usuarios y métricas (administrador).
 
@@ -115,7 +116,7 @@ No hubo contacto con usuarios reales. Los perfiles son una caracterización prel
 * **RNF02 - Rendimiento:** Las vistas y recursos iniciales deben cargar en un tiempo inferior a 2.5 segundos bajo redes móviles estándar (3G/4G).
 * **RNF03 - Diseño Adaptable (Responsividad):** La interfaz debe ajustarse sin pérdida de consistencia funcional entre pantallas móviles (desde 360px de ancho) y navegadores web de escritorio.
 * **RNF04 - Seguridad y Privacidad de Datos:** Los datos escritos en las prácticas no salen del navegador; la lección envía solo paso, errores, tiempo y completado. Contraseñas con bcrypt (costo 10), sesión de máximo 2 horas y respuesta 429 tras 10 intentos de inicio de sesión en 15 minutos.
-* **RNF05 - Compatibilidad Multiplataforma:** La aplicación frontend debe ser ejecutable sin discrepancias visuales tanto en navegadores modernos (Chrome, Firefox, Safari) como empaquetada para dispositivos móviles mediante Capacitor.
+* **RNF05 - Compatibilidad Multiplataforma:** La aplicación funciona en las versiones vigentes de Chrome, Edge, Firefox y Safari, en pantallas desde 360 px hasta 1920 px de ancho sin desplazamiento horizontal, y puede empaquetarse como app Android/iOS con Capacitor.
 
 ---
 
@@ -284,3 +285,43 @@ El uso de `IonSplitPane` permite que el mismo menú lateral (`MenuLateral.tsx`) 
 - **Escalabilidad:** cada vista es una página en `src/pages` y las llamadas a la API están en `src/services`, por lo que una pantalla nueva solo requiere su página y su ruta.
 - **Seguridad y claridad de roles:** la diferenciación de roles está concentrada en `ProtectedRoute`, en vez de repetir validaciones en cada vista.
 
+---
+
+## 7. Capturas de la aplicación
+
+### Versión web
+
+| Bienvenida | Inicio del ciudadano |
+|---|---|
+| ![Bienvenida en escritorio](docs/capturas/01-bienvenida-web.png) | ![Inicio en escritorio](docs/capturas/02-inicio-web.png) |
+| **Lección completada** | **Mi progreso** |
+| ![Lección completada](docs/capturas/03-leccion-completada-web.png) | ![Mi progreso](docs/capturas/04-mi-progreso-web.png) |
+| **Configuración con letra muy grande** | **Métricas del administrador** |
+| ![Configuración con letra muy grande](docs/capturas/05-configuracion-letra-grande.png) | ![Métricas del administrador](docs/capturas/06-admin-metricas-web.png) |
+
+### Versión móvil (390 × 844)
+
+| Bienvenida | Inicio | Mi progreso |
+|---|---|---|
+| ![Bienvenida en móvil](docs/capturas/07-bienvenida-movil.png) | ![Inicio en móvil](docs/capturas/08-inicio-movil.png) | ![Mi progreso en móvil](docs/capturas/09-mi-progreso-movil.png) |
+
+---
+
+## 8. Rendimiento y accesibilidad
+
+### Accesibilidad (RNF01)
+
+| Mejora | Implementación |
+|---|---|
+| Zoom en el celular | Se quitó `user-scalable=no` de `index.html` |
+| Tamaño de letra | Se guarda en `localStorage` (`services/preferencias.ts`) |
+| Lectura en voz alta (RF03) | `BotonLectura` con `window.speechSynthesis` |
+| Avisos | `Aviso` (`IonToast`) con el resultado de cada acción |
+
+### Rendimiento (RNF02)
+
+- Build de producción con Vite (`npm run build`).
+- La API devuelve solo las columnas necesarias y permite paginar (`?page=&limit=`).
+- Navegación sin recargar la página (SPA).
+
+Medición: `npm run build`, `npx vite preview`, F12 → Network con *Fast 4G*; el valor **Load** debe ser menor a 2,5 s.
