@@ -182,6 +182,11 @@ erDiagram
 * `UNIQUE (usuario_id, modulo_id)` en `progreso_usuarios`.
 * `ON DELETE CASCADE` en el progreso, `RESTRICT` en `usuarios.rol_id` y `SET NULL` en `creado_por`.
 
+### Índices
+
+* `idx_progreso_modulo` en `progreso_usuarios(modulo_id)`, usado por las métricas por módulo.
+* Consultas con columnas explícitas y paginación con `LIMIT` y `OFFSET`.
+
 ## Endpoints de la API
 
 URL base: `http://localhost:3000/api`. Las rutas protegidas usan `Authorization: Bearer <TOKEN>`.

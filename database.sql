@@ -58,6 +58,9 @@ CREATE TABLE IF NOT EXISTS progreso_usuarios (
     CONSTRAINT UQprogreso_usuario_modulo UNIQUE (usuario_id, modulo_id) -- para que un usuario no inicie dos veces el mismo módulo.
 );
 
+-- Índice para las consultas por módulo
+CREATE INDEX IF NOT EXISTS idx_progreso_modulo ON progreso_usuarios (modulo_id);
+
 -- DATOS INICIALES Y DE PRUEBA
 INSERT INTO roles (id, nombre, descripcion) VALUES
 (1, 'ciudadano', 'Usuario aprendiz que accede a simuladores y capacitaciones'),
