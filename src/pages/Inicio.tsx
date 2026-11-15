@@ -46,7 +46,7 @@ const Inicio: React.FC = () => {
               <IonIcon icon={volumeMediumOutline} slot="start" />
               Lectura
             </IonButton>
-            <IonButton fill="clear">
+            <IonButton fill="clear" routerLink="/ayuda">
               <IonIcon icon={helpCircleOutline} slot="start" />
               Ayuda
             </IonButton>

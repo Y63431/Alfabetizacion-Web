@@ -12,3 +12,6 @@ build/
 # Configuración de editores
 .vscode/
 .DS_Store
+# Salidas de tsc
+vite.config.js
+vite.config.d.ts
