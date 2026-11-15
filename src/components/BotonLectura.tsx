@@ -5,13 +5,14 @@ import { stopCircleOutline, volumeMediumOutline } from 'ionicons/icons';
 interface BotonLecturaProps {
   texto: string;
   fill?: 'clear' | 'outline' | 'solid';
+  soloIconoEnMovil?: boolean;
 }
 
 // Velocidad de lectura (1 = normal)
 const VELOCIDAD_LECTURA = 0.9;
 
 /** Botón para leer un texto en voz alta (RF03). */
-const BotonLectura: React.FC<BotonLecturaProps> = ({ texto, fill = 'outline' }) => {
+const BotonLectura: React.FC<BotonLecturaProps> = ({ texto, fill = 'outline', soloIconoEnMovil = false }) => {
   const [leyendo, setLeyendo] = useState(false);
   const disponible = typeof window !== 'undefined' && 'speechSynthesis' in window;
 
@@ -41,11 +42,12 @@ const BotonLectura: React.FC<BotonLecturaProps> = ({ texto, fill = 'outline' }) 
   return (
     <IonButton
       fill={fill}
+      className={soloIconoEnMovil ? 'solo-icono-movil' : undefined}
       onClick={leyendo ? detener : leer}
       aria-label={leyendo ? 'Detener la lectura en voz alta' : 'Escuchar estas instrucciones en voz alta'}
     >
       <IonIcon slot="start" icon={leyendo ? stopCircleOutline : volumeMediumOutline} aria-hidden="true" />
-      {leyendo ? 'Detener' : 'Escuchar'}
+      <span className="boton-texto">{leyendo ? 'Detener' : 'Escuchar'}</span>
     </IonButton>
   );
 };

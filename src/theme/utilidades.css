@@ -1,0 +1,10 @@
+/* Botones de la cabecera que en celulares muestran solo el ícono */
+@media (max-width: 480px) {
+  .solo-icono-movil .boton-texto {
+    display: none;
+  }
+
+  .solo-icono-movil ion-icon[slot='start'] {
+    margin: 0;
+  }
+}
