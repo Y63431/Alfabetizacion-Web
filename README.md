@@ -24,6 +24,7 @@
 ### Funcionalidades Principales
 * Registro e inicio de sesión de ciudadanos y administradores.
 * Catálogo de prácticas y lecciones guiadas con validación en cada paso.
+* Mi progreso, con barras de avance e insignias.
 * Mi Perfil.
 * Gestión de módulos, usuarios y métricas (administrador).
 
@@ -40,13 +41,37 @@
 ### Contexto y Relevancia del Problema
 A nivel comunal, el proceso de digitalización municipal ha trasladado trámites esenciales a plataformas en línea. No obstante, esto evidencia la brecha descrita en el **Problema 25: Baja Alfabetización Digital en la Población**, donde segmentos significativos (particularmente adultos mayores y ciudadanos con nula instrucción digital) carecen de las competencias prácticas para utilizar estos sistemas. Las consecuencias directas abarcan exclusión social, dependencia de intermediarios, retrasos en solicitudes críticas (como patentes, permisos o ayudas sociales) e incluso el retraso del proceso de digitalización para acomodar a este sector.
 
+### Evidencia (fuentes secundarias)
+
+1. La Ley 21.180 obliga a hacer los procedimientos administrativos por medios electrónicos, también en las municipalidades [1][2].
+2. El 74,4 % de las personas de 60 años o más usa internet a diario, pero solo el 23,1 % hace trámites en línea (56 % entre 30 y 44 años) [3].
+3. Solo el 42,9 % de las personas de 60 años o más sabe pagar en línea por sí misma y el 19,4 % sabe instalar una aplicación [3].
+4. Entre los mayores de 80 años o con solo educación básica, no más del 5 % hace trámites por internet [4].
+
+Conclusión: la principal barrera no es la conexión, sino la falta de práctica guiada.
+
+#### Referencias
+
+1. Ley N° 21.180, Transformación Digital del Estado. Diario Oficial, 11 de noviembre de 2019. https://www.diariooficial.interior.gob.cl/publicaciones/2019/11/11/42499/01/1680231.pdf
+2. Ley N° 19.880, Bases de los Procedimientos Administrativos, artículo 2 (ámbito de aplicación). https://chile.justia.com/nacionales/leyes/ley-n-19-880/gdoc
+3. SUBTEL y Cadem. *XII Encuesta de Acceso y Uso de Internet en Chile, medición 2025* (5.000 casos, terreno julio a septiembre de 2025). Tablas 13, 14 y 18. https://www.subtel.gob.cl/wp-content/uploads/2026/02/Informe-Final-Acceso-y-Uso-Internet-2025_03.pdf
+4. Pontificia Universidad Católica de Chile y Caja Los Andes. *Sexta Encuesta Nacional de Calidad de Vida en la Vejez 2022*, capítulo 4: Acceso a las TICs. https://encuestacalidaddevidaenlavejez.uc.cl/wp-content/uploads/2023/08/Cap-4-Acceso-a-TICs-1-1.pdf
+
 ### Roles del sistema, accesibilidad y supuestos
 La aplicación web deberá considerar dentro del sistema, al menos dos roles claramente diferenciados: el **ciudadano o usuario final**, quien interactúa con los módulos de simulación y aprendizaje, y el **funcionario o coordinador de capacitación**, encargado de diseñar y gestionar dichos módulos. El coordinador de capacitación también actuará como **administrador del sistema** para tareas de mantenimiento y configuración.
 
 En cuanto a las necesidades de accesibilidad, seguridad y privacidad, la aplicación deberá ofrecer una interfaz con opciones para aumentar el tamaño del texto, hacer uso de un modo oscuro, activar la narración, activar las notificaciones y cambiar el idioma. También debe contar con protección adecuada de los datos personales ingresados durante las simulaciones de trámites.
 
-Finalmente, dado que no se tuvo contacto directo con usuarios reales, la caracterización de los perfiles se construyó a partir de los siguientes
-supuestos: que el adulto mayor no posee experiencia previa usando plataformas de trámites en línea y que su principal barrera es actitudinal, puesto que puede tener miedo a equivocarse, y que el funcionario municipal cuenta con la autorización y el conocimiento técnico suficiente para diseñar y ajustar los módulos de capacitación sin requerir aprobación de sus superiores.
+#### Supuestos de la caracterización
+
+No hubo contacto con usuarios reales. Los perfiles son una caracterización preliminar basada en las fuentes anteriores y en estos supuestos:
+
+| Supuesto | En qué se apoya |
+|---|---|
+| La persona mayor tiene smartphone e internet, pero no experiencia en trámites en línea | Fuentes [3] y [4]: alto uso diario de internet y bajo uso para trámites |
+| Su principal barrera es el miedo a equivocarse, más que la falta de equipo | Inferencia del equipo a partir de [3]: pocas personas mayores saben hacer pagos o instalar aplicaciones por sí mismas |
+| Las personas con menos años de estudio y las mayores de 80 son las más rezagadas | Fuente [4] |
+| El funcionario municipal puede diseñar y ajustar los módulos sin aprobación de sus superiores | Supuesto del equipo, sin fuente |
 
 ### Caracterización y Perfiles de Usuario (Proto-Personas)
 
@@ -74,10 +99,10 @@ supuestos: que el adulto mayor no posee experiencia previa usando plataformas de
 
 ### Requerimientos Funcionales (RF)
 * **RF01 - Catálogo de Trámites Simulados (Usuario):** El sistema debe listar los módulos interactivos de trámites municipales disponibles (ej. reserva de horas, solicitud de certificados, pago de aseo) con indicadores visuales de nivel de dificultad.
-* **RF02 - Simulador Guiado de Formularios (Usuario):** El sistema debe permitir al usuario completar campos de formularios paso a paso dentro de un entorno de prueba controlado, validando entradas y destacando el siguiente elemento a interactuar mediante señales visuales.
+* **RF02 - Simulador Guiado de Formularios (Usuario):** El sistema guía al usuario paso a paso por un formulario de trámite simulado, valida cada campo antes de continuar y destaca el siguiente elemento con el que debe interactuar.
 * **RF03 - Asistente de Lectura y Ayuda Contextual (Usuario):** El sistema debe ofrecer la opción de activar lectura en audio de los textos e instrucciones de cada pantalla y campo de entrada.
 * **RF04 - Retroalimentación Inmediata de Errores (Usuario):** El sistema debe entregar mensajes de corrección claros y libres de tecnicismos cuando el usuario cometa una equivocación durante la simulación, permitiendo reintentos ilimitados.
-* **RF05 - Historial y Progreso Formativo (Usuario):** El sistema debe registrar y desplegar los módulos completados con éxito por el usuario y los logros obtenidos de forma gráfica y simplificada.
+* **RF05 - Historial y Progreso Formativo (Usuario):** El sistema registra el avance de cada práctica (paso, errores, tiempo y estado) y lo muestra en la pantalla "Mi progreso" con barras de avance e insignias.
 * **RF06 - Gestión de Módulos y Simuladores (Admin):** El sistema debe permitir al administrador crear, modificar y deshabilitar módulos de capacitación y trámites simulados.
 * **RF07 - Métricas de Errores y Usabilidad (Admin):** El sistema debe generar reportes agregados que indiquen qué pasos de los simuladores presentan la mayor tasa de fallos o abandono.
 
@@ -148,6 +173,7 @@ Las llamadas protegidas pasan por `src/services/api.ts`, que agrega el JWT y cie
 | Inicio | `GET /modulos`, `GET /progreso` | Ciudadano |
 | Practicar | `GET /modulos`, `GET /progreso` | Ciudadano |
 | Lección | `GET /modulos/:id`, `POST /progreso`, `PATCH /progreso/:id` | Ciudadano |
+| Mi progreso | `GET /modulos`, `GET /progreso` | Ciudadano |
 | Mi Perfil | `GET /usuarios/me`, `PUT /usuarios/me` | Ciudadano |
 | Usuarios (admin) | `GET /admin/usuarios`, `PATCH /admin/usuarios/:id` | Admin |
 | Métricas (admin) | `GET /admin/metricas` | Admin |
@@ -186,6 +212,7 @@ Rutas definidas en `src/routes/AppRoutes.tsx`. Las protegidas pasan por `Protect
 | `/inicio` | Inicio del ciudadano | Ciudadano |
 | `/practicar` | Catálogo de prácticas | Ciudadano |
 | `/practicar/:moduloId` | Lección guiada de un módulo | Ciudadano |
+| `/mi-progreso` | Avance e insignias | Ciudadano |
 | `/perfil` | Mi Perfil | Ciudadano |
 | `/configuracion` | Accesibilidad (tamaño de letra) | Ciudadano |
 | `/admin/panel` | Panel de administración | Admin |
@@ -197,7 +224,7 @@ Rutas definidas en `src/routes/AppRoutes.tsx`. Las protegidas pasan por `Protect
 ### b) Relaciones jerárquicas entre vistas
 1. **Nivel 0 – Acceso:** `/bienvenida`, `/iniciar-sesion`, `/admin/iniciar-sesion`, `/registro` (con 3 etapas internas manejadas por estado) y `/ayuda`.
 2. **Nivel 1 – Inicio:** `/inicio` para el ciudadano y `/admin/panel` para el administrador.
-3. **Nivel 2 – Funcionalidades:** el ciudadano accede a Practicar, Mi Perfil, Configuración y Ayuda; el administrador, a Módulos, Usuarios, Métricas y Configuración, en el mismo nivel.
+3. **Nivel 2 – Funcionalidades:** el ciudadano accede a Practicar, Mi progreso, Mi Perfil, Configuración y Ayuda; el administrador, a Módulos, Usuarios, Métricas y Configuración, en el mismo nivel.
 4. **Nivel 3 – Lección:** `/practicar/:moduloId`, a la que se llega desde Practicar.
 
 El menú lateral (`IonSplitPane` + `IonMenu`, `MenuLateral.tsx`) se muestra solo con sesión iniciada y fuera de las rutas públicas (`rutasSinMenu`). El administrador navega con la cabecera de `AdministracionLayout.tsx`.
@@ -212,7 +239,7 @@ El menú lateral (`IonSplitPane` + `IonMenu`, `MenuLateral.tsx`) se muestra solo
 ### d) Diferenciación de acceso según roles
 * Sin sesión, `ProtectedRoute` redirige a `/iniciar-sesion`.
 * Si el rol no corresponde a la ruta, redirige al inicio de su rol.
-* **Ciudadano:** `/inicio`, `/practicar`, `/perfil` y `/configuracion`.
+* **Ciudadano:** `/inicio`, `/practicar`, `/mi-progreso`, `/perfil` y `/configuracion`.
 * **Administrador:** `/admin/panel`, `/admin/modulos`, `/admin/usuarios`, `/admin/metricas` y `/admin/configuracion`.
 
 ### e) Flujo de principales tareas (task flow)
