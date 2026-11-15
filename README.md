@@ -272,6 +272,13 @@ URL base: `http://localhost:3000/api`. Las rutas protegidas usan `Authorization:
 
 Correo de bienvenida al registrarse, enviado con la API de [Resend](https://resend.com) (`src/services/correo_service.js`). Si `RESEND_API_KEY` está vacía no se envía.
 
+Activación:
+
+1. Crear una cuenta en [resend.com](https://resend.com).
+2. Crear una API key con permiso *Sending access*.
+3. Agregarla al `.env` como `RESEND_API_KEY=re_...` y reiniciar la API.
+4. Registrar un ciudadano con el correo de la cuenta de Resend.
+
 ## Despliegue con Docker
 
 `docker-compose.yml` levanta **db** (PostgreSQL 16), **api** (este backend) y **web** (frontend con Nginx):
