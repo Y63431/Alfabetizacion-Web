@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import {
   IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem,
   IonLabel, IonList, IonNote, IonPage, IonSpinner, IonTitle, IonToolbar,
-  useIonToast,
 } from '@ionic/react';
+import Aviso, { type MensajeAviso } from '../components/Aviso';
 import { actualizarPerfil, obtenerPerfil, type Perfil } from '../services/perfil';
 
 const TELEFONO_REGEX = /^\+?[0-9\s()-]{7,20}$/;
@@ -15,7 +15,7 @@ const MiPerfil: React.FC = () => {
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState('');
-  const [mostrarToast] = useIonToast();
+  const [aviso, setAviso] = useState<MensajeAviso | null>(null);
 
   useEffect(() => {
     const cargar = async () => {
@@ -46,7 +46,7 @@ const MiPerfil: React.FC = () => {
     try {
       const actualizado = await actualizarPerfil({ nombre: nombre.trim(), telefono: telefono.trim() });
       setPerfil(actualizado);
-      void mostrarToast({ message: 'Tus datos se guardaron correctamente.', duration: 2500, color: 'success', position: 'top' });
+      setAviso({ tipo: 'exito', texto: 'Tus datos se guardaron correctamente.' });
     } catch (causa) {
       setError(causa instanceof Error ? causa.message : 'No se pudieron guardar tus datos.');
     } finally {
@@ -98,6 +98,7 @@ const MiPerfil: React.FC = () => {
             </IonButton>
           </form>
         )}
+      <Aviso aviso={aviso} alCerrar={() => setAviso(null)} />
       </IonContent>
     </IonPage>
   );

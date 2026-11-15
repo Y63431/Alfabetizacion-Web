@@ -85,7 +85,7 @@ supuestos: que el adulto mayor no posee experiencia previa usando plataformas de
 * **RNF01 - Usabilidad y Accesibilidad:** La interfaz debe cumplir con criterios de contraste accesible (WCAG AA), tipografía escalable con un tamaño base no inferior a 16px y áreas táctiles de botones de al menos 48x48px.
 * **RNF02 - Rendimiento:** Las vistas y recursos iniciales deben cargar en un tiempo inferior a 2.5 segundos bajo redes móviles estándar (3G/4G).
 * **RNF03 - Diseño Adaptable (Responsividad):** La interfaz debe ajustarse sin pérdida de consistencia funcional entre pantallas móviles (desde 360px de ancho) y navegadores web de escritorio.
-* **RNF04 - Seguridad y Privacidad de Datos:** El simulador no debe almacenar datos sensibles o información personal real (como RUT, cuentas bancarias o claves) ingresados durante los ejercicios formativos.
+* **RNF04 - Seguridad y Privacidad de Datos:** Los datos escritos en las prácticas no salen del navegador; la lección envía solo paso, errores, tiempo y completado. Contraseñas con bcrypt (costo 10), sesión de máximo 2 horas y respuesta 429 tras 10 intentos de inicio de sesión en 15 minutos.
 * **RNF05 - Compatibilidad Multiplataforma:** La aplicación frontend debe ser ejecutable sin discrepancias visuales tanto en navegadores modernos (Chrome, Firefox, Safari) como empaquetada para dispositivos móviles mediante Capacitor.
 
 ---
